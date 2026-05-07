@@ -1,4 +1,4 @@
-const add = document.querySelector(".numb p")
+const addDisplay = document.querySelector(".numb p")
 
 let count = 0;
 
@@ -11,10 +11,24 @@ function updateval(){
     document.getElementById("count").innerHTML = count;
 }
 
-function substract(){
+function subtract(){
     count --;
+    updateval()
+}
+
+function reset(){
+    count = 0;
+    updateval();
 }
 
 function save(){
-    
+    localStorage.setItem("count", count);
+}
+
+function load(){
+    let saved = localStorage.getItem("count")
+    if (saved != null){
+        count = Number(saved)
+    }
+    updateval()
 }

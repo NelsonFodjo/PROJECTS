@@ -32,6 +32,10 @@
 
 }
 
+body{
+    background-color: #222;
+}
+
 .buttons{
     display: flex;
     margin: 20px auto;
