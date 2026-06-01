@@ -65,7 +65,7 @@ command = [
     #
     # Lower CRF = better quality, bigger file
     # Higher CRF = worse quality, smaller file
-    "-crf", "25",
+    "-crf", "23",
 
     # Preset controls compression speed vs efficiency
     # slower = better compression, more CPU usage
