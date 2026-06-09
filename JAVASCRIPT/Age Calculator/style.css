@@ -11,9 +11,6 @@ body{
     background: linear-gradient(135deg, #4203a9, rgb(0, 255, 242));
     width: 100%;
     height: 100vh;
-}
-
-.container{
     padding: 125px;
 }
 

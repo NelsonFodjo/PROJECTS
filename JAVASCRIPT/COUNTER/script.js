@@ -1,5 +1,3 @@
-const addDisplay = document.querySelector(".numb p")
-
 let count = 0;
 
 function add(){

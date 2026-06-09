@@ -46,8 +46,8 @@ body{
 button{
     padding: 9px 15px;
     border: none;
-    color: aliceblue;
-    background: #2a00d0b4;
+    color: rgb(0, 0, 0);
+    background: #d4ff14e7;
     font-size: 18px;
     font-weight: bold;
     cursor: pointer;
