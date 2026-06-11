@@ -1,28 +1,19 @@
 import React, {useState} from 'react'
+import './App.css'
 
- export default function App() {
 
-  const [winner, setWinner] = useState("Mexico");
-  const [inputText, setInputText] = useState('hello')
+export default function App(){
+  const [num, setNum] = useState(0);
 
-  const handleClick = () => {
-    setWinner((prevWinner) =>
-      prevWinner === "Mexico" ? "South Africa" : "Mexico"
-    );
-  };
-
-  const handleChange = () =>{
-    setInputText(event.target.value);
-  };
 
   return (
-    <div>
-      <h3>Who do you think will win the world cup?</h3>
-      <h1>{winner} will win!</h1>
-      <button onClick={handleClick}>Change</button>
-      <h2>Now let's explore some typing</h2>
-      <input value={inputText} onChange={handleChange}/>
-      <h1>You typed: {inputText}</h1>
+    <div className='app-container'>
+      <h3>React Counter Application</h3>
+      <h1 className='counter-heading'>Current number: {num}</h1>
+      <div className='button-container'>
+      <button onClick={() => setNum(num + 1)} className='counter-button'>Add 1</button>
+      <button onClick={() => setNum(num - 1)} className='counter-button'>Subtract 1</button>
+      </div>
     </div>
   );
-}
+};
