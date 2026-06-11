@@ -19,3 +19,11 @@ function App() {
 }
 
 export default App
+
+function handleLight(){
+  setLightOn((currentState) =>
+    currentState === true ? false : true
+  );
+};
+
+<button onClick={handleLight}>Switch</button>
