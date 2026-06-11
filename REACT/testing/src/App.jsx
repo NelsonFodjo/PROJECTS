@@ -1,18 +1,20 @@
-
+import React, {useState} from 'react'
 
 function App() {
+  const [winner, setWinner] = useState("Mexico");
+
   const handleClick = () => {
-    let randomNum = Math.floor(Math.random() * 3) + 1;
-    let userInput = prompt("Type a number");
-    alert(`Computer number: ${randomNum}, Your gyess: ${userInput}`);
+    setWinner((prevWinner) =>
+      prevWinner === "Mexico" ? "South Africa" : "Mexico"
+    );
   };
 
   return (
     <div>
-      <h1>Number guessing game</h1>
-      <button onClick={handleClick}>Guess a number between 1 and 3</button>
+      <h3>Who do you think will win the world cup?</h3>
+      <h1>{winner} will win!</h1>
+      <button onClick={handleClick}>Change</button>
     </div>
-
   );
 }
 
