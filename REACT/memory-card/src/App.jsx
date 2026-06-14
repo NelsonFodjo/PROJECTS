@@ -26,6 +26,8 @@ function App() {
   // });
   const [cards, setCards] = useState([]);
   const [flippedCards, setFlippedCards] = useState([])
+  let score = 0;
+  let move = 0;
 
   const initializeGame = () => {
     //shuffling to be done later
@@ -85,6 +87,8 @@ function App() {
     }
   }
 
+  move = move + 1;
+
   }
 
   
@@ -93,7 +97,7 @@ function App() {
 
   return (
     <>
-      <GameHeader score={3} moves={10}/>
+      <GameHeader score={score} moves={move}/>
 
       <div className="cards-grid">
         {cards.map((card) => (
