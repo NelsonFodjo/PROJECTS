@@ -25,11 +25,12 @@ function App() {
   //   }));
   // });
   const [cards, setCards] = useState([]);
+  const [flippedCards, setFlippedCards] = useState([])
 
   const initializeGame = () => {
     //shuffling to be done later
 
-  const finalCards =  cardValues.map((value, index) => ({
+    const finalCards =  cardValues.map((value, index) => ({
       id: index,
       value,
       isFlipped: false,
@@ -37,6 +38,18 @@ function App() {
     }));
 
   setCards(finalCards)
+
+  const newFlippedCards =[...flippedCards, cards.id]
+  setFlippedCards(newFlippedCards)
+
+  //check for match if two cards are flipped
+
+  if (flippedCards.length === 1){
+    const firstCard = cards[flippedCards[0]];
+    if (firstCard.value === cards.value){
+      alert("match")
+    }
+  }
   };
 
 useEffect(() => {
