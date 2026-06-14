@@ -52,11 +52,9 @@ function App() {
   }
   };
 
-useEffect(() => {
-  initializeGame()
-}, [])
+  useEffect(() => { initializeGame() }, [])
 
-const handleCardClick = (card) => {
+  const handleCardClick = (card) => {
   // do not allow clicking if the card is flipped or matched.
   if (card.isFlipped || card.isMatched) {
     return;
@@ -71,7 +69,24 @@ const handleCardClick = (card) => {
     }
   })
   setCards(newCards)
-}
+  
+  const newFlippedCards = [...flippedCards, card.id]
+  console.log(flippedCards)
+  setFlippedCards(newFlippedCards)
+  //check for a match if two cards are fillped
+  if(flippedCards.length === 1){
+    const firstCard = cards[flippedCards[0]]
+
+    if (firstCard.value === card.value){
+      alert("match")
+    }
+  }
+
+  }
+
+  
+
+
 
   return (
     <>
