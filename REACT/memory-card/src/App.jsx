@@ -10,25 +10,37 @@ const cardValues = [
 
 function App() {
 
+  // // initialize cards lazily to avoid calling setState inside useEffect
+  // const [cards, setCards] = useState(() => {
+  //   // simple shuffle helper
+  //   const shuffled = [...cardValues]
+  //     .map((v) => ({ v, sort: Math.random() }))
+  //     .sort((a, b) => a.sort - b.sort)
+  //     .map((x) => x.v);
+
+  //   return  cardValues.map((value, index) => ({
+  //     id: index,
+  //     value,
+  //     isFlipped: false,
+  //     isMatched: false,
+  //   }));
+  // });
   const [cards, setCards] = useState([]);
 
-  const initializeGame = () =>{
-    //shuffle the cards
-    
-    const finalCards = cardValues.map((value, index) => ({
-      id : index,
+  const initializeGame = () => {
+    //shuffling to be
+  const finalCards =  cardValues.map((value, index) => ({
+      id: index,
       value,
-      isFlipped : false,
+      isFlipped: false,
       isMatched: false,
-      }
-    ));
+    }));
 
-    setCards(finalCards)
+  setCards(finalCards)
   };
 
-  useEffect(() => {
-    initializeGame()
-  }, [])
+
+
 
 const handleCardClick = (card) => {
   // do not allow clicking if the card is flipped or matched.
@@ -44,6 +56,7 @@ const handleCardClick = (card) => {
       return c;
     }
   })
+  setCards(newCards)
 }
 
   return (
@@ -51,8 +64,8 @@ const handleCardClick = (card) => {
       <GameHeader score={3} moves={10}/>
 
       <div className="cards-grid">
-        {cardValues.map((card) => (
-          <Card card={card} onClick={handleCardClick} />
+        {cards.map((card) => (
+          <Card key={card.id} card={card} onClick={handleCardClick} />
         ))}
       </div>
     </>
