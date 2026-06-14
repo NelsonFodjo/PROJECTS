@@ -7,7 +7,6 @@ const cardValues = [
   "😀","🎉","🐱","🍎","🚀","🌟","🎵","❤️"
 ]
 
-
 function App() {
 
   // // initialize cards lazily to avoid calling setState inside useEffect
@@ -28,7 +27,8 @@ function App() {
   const [cards, setCards] = useState([]);
 
   const initializeGame = () => {
-    //shuffling to be
+    //shuffling to be done later
+
   const finalCards =  cardValues.map((value, index) => ({
       id: index,
       value,
@@ -39,8 +39,9 @@ function App() {
   setCards(finalCards)
   };
 
-
-
+useEffect(() => {
+  initializeGame()
+}, [])
 
 const handleCardClick = (card) => {
   // do not allow clicking if the card is flipped or matched.
