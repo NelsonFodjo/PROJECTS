@@ -1,6 +1,6 @@
 import GameHeader from "./components/GameHeader"
 import Card from "./components/Card"
-import { useEffect, useState } from "react"
+import { use, useEffect, useState } from "react"
 
 const cardValues = [
   "😀","🎉","🐱","🍎","🚀","🌟","🎵","❤️",
@@ -11,6 +11,8 @@ function App() {
 
   const [cards, setCards] = useState([]);
   const [flippedCards, setFlippedCards] = useState([])
+  const [score, setScore] = useState(0)
+  const [isChecking, setIsChecking] = useState(false)
 
   const initializeGame = () => {
     //shuffling to be done later
@@ -23,25 +25,13 @@ function App() {
     }));
 
   setCards(finalCards)
-
-  const newFlippedCards =[...flippedCards, cards.id]
-  setFlippedCards(newFlippedCards)
-
-  //check for match if two cards are flipped
-
-  if (flippedCards.length === 1){
-    const firstCard = cards[flippedCards[0]];
-    if (firstCard.value === cards.value){
-      alert("match")
-    }
-  }
   };
 
   useEffect(() => { initializeGame() }, [])
 
   const handleCardClick = (card) => {
   // do not allow clicking if the card is flipped or matched.
-  if (card.isFlipped || card.isMatched) {
+  if (card.isFlipped || card.isMatched || isChecking) {
     return;
   }
   // update the flipped state
@@ -56,14 +46,25 @@ function App() {
   setCards(newCards)
 
   const newFlippedCards = [...flippedCards, card.id]
-  
+  console.log(newFlippedCards)
+
   setFlippedCards(newFlippedCards)
   //check for a match if two cards are fillped
   if(newFlippedCards.length === 2){
-    const firstCard = flippedCards[0]
-
-    if (firstCard === card.value){
-      alert("match")
+    const firstCard = cards.find(c => c.id === newFlippedCards[0])
+    
+    if (firstCard.value === card.value){
+      setScore(score + 1)
+      
+    } else {
+      setIsChecking(true)
+      setTimeout(() => {
+        setCards(prev => prev.map(c =>
+          newFlippedCards.includes(c.id ? { ...c, isFlipped: false} : c)
+        ))
+        setFlippedCards([])
+        setIsChecking(false)
+      }, 1000)
     }
   }
 
@@ -75,7 +76,7 @@ function App() {
 
   return (
     <>
-      <GameHeader score={0} moves={0}/>
+      <GameHeader score={score} moves={0}/>
 
       <div className="cards-grid">
         {cards.map((card) => (
