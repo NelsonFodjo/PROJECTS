@@ -55,6 +55,16 @@ function App() {
     
     if (firstCard.value === card.value){
       setScore(score + 1)
+      setFlippedCards([])
+      const newCards = cards.map((c) => {
+        if(c.id === card.id){
+          return{...c, isFlipped: true, isMatched: true}
+        }
+        else{
+          return c
+        }
+      })
+      setCards(newCards)
       
     } else {
       setIsChecking(true)
