@@ -96,12 +96,12 @@ function App() {
   return (
     <>
       <GameHeader score={score} moves={moves} onClick={initializeGame}/>
-       
+       {isGameComplete && <WinMessage moves={moves} />}
       <div className="cards-grid">
         {cards.map((card) => (
           <Card key={card.id} card={card} onClick={handleCardClick} />
         ))}
-        {isGameComplete && <WinMessage moves={moves} />}
+  
       </div>
 
       
