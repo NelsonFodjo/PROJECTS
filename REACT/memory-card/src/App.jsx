@@ -9,25 +9,8 @@ const cardValues = [
 
 function App() {
 
-  // // initialize cards lazily to avoid calling setState inside useEffect
-  // const [cards, setCards] = useState(() => {
-  //   // simple shuffle helper
-  //   const shuffled = [...cardValues]
-  //     .map((v) => ({ v, sort: Math.random() }))
-  //     .sort((a, b) => a.sort - b.sort)
-  //     .map((x) => x.v);
-
-  //   return  cardValues.map((value, index) => ({
-  //     id: index,
-  //     value,
-  //     isFlipped: false,
-  //     isMatched: false,
-  //   }));
-  // });
   const [cards, setCards] = useState([]);
   const [flippedCards, setFlippedCards] = useState([])
-  let score = 0;
-  let move = 0;
 
   const initializeGame = () => {
     //shuffling to be done later
@@ -72,22 +55,17 @@ function App() {
   })
   setCards(newCards)
 
-  console.log(cards)
-
-
   const newFlippedCards = [...flippedCards, card.id]
   
   setFlippedCards(newFlippedCards)
   //check for a match if two cards are fillped
   if(newFlippedCards.length === 2){
-    const firstCard = cards[flippedCards[0]]
+    const firstCard = flippedCards[0]
 
-    if (firstCard.value === card.value){
+    if (firstCard === card.value){
       alert("match")
     }
   }
-
-  move = move + 1;
 
   }
 
@@ -97,7 +75,7 @@ function App() {
 
   return (
     <>
-      <GameHeader score={score} moves={move}/>
+      <GameHeader score={0} moves={0}/>
 
       <div className="cards-grid">
         {cards.map((card) => (
