@@ -1,5 +1,8 @@
+import { Users, CheckCircle2, TrendingUp, Download } from 'lucide-react'
 import { useAdminStats } from '../../hooks/useRegistrations'
 import { toCsv, downloadCsv } from '../../utils/formatters'
+
+const STAT_CARDS_BORDER = ['border-lime', 'border-gold', 'border-coral']
 
 export default function StatsPanel() {
   const { stats, loading } = useAdminStats()
@@ -12,71 +15,73 @@ export default function StatsPanel() {
   }
 
   if (loading) {
-    return <p className="text-gray-500">Loading stats...</p>
+    return <p className="text-neutral">Loading stats...</p>
   }
 
+  const cards = [
+    { label: 'Registrations', value: stats.total, icon: Users },
+    { label: 'Purchases Verified', value: stats.verified, icon: CheckCircle2 },
+    { label: 'Conversion Rate', value: `${conversionRate}%`, icon: TrendingUp },
+  ]
+
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <div className="grid grid-cols-3 gap-3">
-        <div className="bg-gray-100 rounded-lg p-4 text-center">
-          <div className="text-2xl font-bold text-black">{stats.total}</div>
-          <div className="text-xs text-gray-500 mt-1">Registrations</div>
-        </div>
-        <div className="bg-gray-100 rounded-lg p-4 text-center">
-          <div className="text-2xl font-bold text-black">{stats.verified}</div>
-          <div className="text-xs text-gray-500 mt-1">Purchases Verified</div>
-        </div>
-        <div className="bg-gray-100 rounded-lg p-4 text-center">
-          <div className="text-2xl font-bold text-black">{conversionRate}%</div>
-          <div className="text-xs text-gray-500 mt-1">Conversion Rate</div>
+        {cards.map((card, i) => (
+          <div
+            key={card.label}
+            className={`bg-white rounded-lg p-4 text-center border-l-4 ${STAT_CARDS_BORDER[i]} shadow-soft`}
+          >
+            <card.icon className="text-neutral mx-auto mb-1" size={18} />
+            <div className="font-display font-bold text-2xl text-ink">{card.value}</div>
+            <div className="text-xs text-neutral mt-1">{card.label}</div>
+          </div>
+        ))}
+      </div>
+
+      <div>
+        <h3 className="font-display font-semibold text-ink mb-3">Top 5 Deaneries</h3>
+        <div className="space-y-2">
+          {stats.topDeaneries.map((row) => {
+            const max = stats.topDeaneries[0]?.count || 1
+            return (
+              <div key={row.deanery} className="flex items-center gap-3">
+                <span className="text-sm text-neutral w-28 truncate">{row.deanery}</span>
+                <div className="flex-1 bg-gray-100 rounded-full h-3 overflow-hidden">
+                  <div
+                    className="h-full bg-lime rounded-full transition-all duration-500"
+                    style={{ width: `${(row.count / max) * 100}%` }}
+                  />
+                </div>
+                <span className="text-sm text-ink font-medium w-6 text-right">{row.count}</span>
+              </div>
+            )
+          })}
+          {stats.topDeaneries.length === 0 && <p className="text-neutral text-sm">No data yet</p>}
         </div>
       </div>
 
       <div>
-        <h3 className="font-semibold text-black mb-2">Top 5 Deaneries</h3>
-        <table className="w-full text-left border border-gray-200 rounded-md overflow-hidden">
-          <thead className="bg-gray-50">
-            <tr>
-              <th className="px-3 py-2 text-sm font-medium text-gray-600">Deanery</th>
-              <th className="px-3 py-2 text-sm font-medium text-gray-600">Count</th>
-            </tr>
-          </thead>
-          <tbody>
-            {stats.topDeaneries.map((row) => (
-              <tr key={row.deanery} className="border-t border-gray-200">
-                <td className="px-3 py-2 text-gray-700">{row.deanery}</td>
-                <td className="px-3 py-2 text-gray-700">{row.count}</td>
-              </tr>
-            ))}
-            {stats.topDeaneries.length === 0 && (
-              <tr>
-                <td colSpan={2} className="px-3 py-2 text-gray-400">
-                  No data yet
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
-
-      <div>
-        <h3 className="font-semibold text-black mb-2">Product Interest Breakdown</h3>
-        <ul className="space-y-1">
+        <h3 className="font-display font-semibold text-ink mb-3">Product Interest Breakdown</h3>
+        <ul className="space-y-1.5">
           {stats.productBreakdown.map((row) => (
-            <li key={row.product} className="flex justify-between text-gray-700">
+            <li key={row.product} className="flex justify-between text-neutral text-sm">
               <span>{row.product}</span>
-              <span>{row.percentage}%</span>
+              <span className="text-ink font-medium">{row.percentage}%</span>
             </li>
           ))}
-          {stats.productBreakdown.length === 0 && <li className="text-gray-400">No data yet</li>}
+          {stats.productBreakdown.length === 0 && (
+            <li className="text-neutral text-sm">No data yet</li>
+          )}
         </ul>
       </div>
 
       <button
         type="button"
         onClick={handleExport}
-        className="w-full border border-gray-300 text-gray-700 rounded-md py-2.5 font-medium hover:bg-gray-50 transition-colors duration-200 min-h-11"
+        className="w-full flex items-center justify-center gap-2 border-2 border-gray-200 text-ink rounded-lg py-2.5 font-medium hover:border-lime hover:bg-lime/5 transition-colors duration-200 min-h-11"
       >
+        <Download size={16} />
         Export CSV
       </button>
     </div>

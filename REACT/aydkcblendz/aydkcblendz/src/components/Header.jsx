@@ -5,11 +5,9 @@ const KCBLENDZ_LOGO =
 
 export default function Header({ onRegisterClick }) {
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-gray-200 bg-offwhite/90 backdrop-blur-sm">
-      <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-        <img src={KCBLENDZ_LOGO} alt="KcBlendz" className="h-9 w-auto" loading="lazy" />
-
-        <span className="font-display text-ink text-lg hidden md:inline">AYD with KcBlendz</span>
+    <header className="sticky top-0 z-40 w-full bg-white/90 backdrop-blur-sm shadow-sm">
+      <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+        <img src={KCBLENDZ_LOGO} alt="KcBlendz" className="h-8 w-auto" loading="lazy" />
 
         <nav className="flex items-center gap-6">
           <a
@@ -24,7 +22,7 @@ export default function Header({ onRegisterClick }) {
             onClick={onRegisterClick}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.98 }}
-            className="font-display bg-lime text-ink rounded-lg px-4 py-2"
+            className="font-display font-semibold bg-lime text-ink rounded-lg px-4 py-2 text-sm"
           >
             Register
           </motion.button>

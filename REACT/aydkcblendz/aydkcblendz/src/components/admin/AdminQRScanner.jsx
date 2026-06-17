@@ -9,8 +9,14 @@ export default function AdminQRScanner({ onScan }) {
   const [cameraError, setCameraError] = useState('')
 
   useEffect(() => {
-    const scanner = new Html5Qrcode(SCANNER_ELEMENT_ID)
-    scannerRef.current = scanner
+    let scanner
+    try {
+      scanner = new Html5Qrcode(SCANNER_ELEMENT_ID)
+      scannerRef.current = scanner
+    } catch {
+      queueMicrotask(() => setCameraError('Unable to start scanner. Use manual entry below.'))
+      return
+    }
 
     scanner
       .start(
@@ -25,7 +31,7 @@ export default function AdminQRScanner({ onScan }) {
       .catch(() => setCameraError('Unable to access camera. Use manual entry below.'))
 
     return () => {
-      if (scannerRef.current) {
+      if (scannerRef.current?.isScanning) {
         scannerRef.current.stop().catch(() => {})
       }
     }

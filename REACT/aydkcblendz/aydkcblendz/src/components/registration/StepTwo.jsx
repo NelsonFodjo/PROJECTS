@@ -16,7 +16,7 @@ export default function StepTwo({ qrCodeId, onContinue, onRegisterAnother }) {
 
   return (
     <div className="text-center space-y-4">
-      <h2 className="text-2xl font-bold text-black">🎉 You're In!</h2>
+      <h2 className="font-display font-bold text-2xl text-ink">🎉 You're In!</h2>
 
       <div ref={canvasWrapperRef} className="flex justify-center">
         <QRCodeCanvas value={qrCodeId} size={280} includeMargin />
@@ -37,7 +37,7 @@ export default function StepTwo({ qrCodeId, onContinue, onRegisterAnother }) {
       <button
         type="button"
         onClick={onContinue}
-        className="w-full bg-green-600 text-white rounded-md py-3 font-medium hover:bg-green-700 transition-colors duration-200 min-h-11"
+        className="w-full bg-lime text-ink rounded-md py-3 font-display font-semibold hover:bg-gold transition-colors duration-200 min-h-11"
       >
         CONTINUE →
       </button>
@@ -45,7 +45,7 @@ export default function StepTwo({ qrCodeId, onContinue, onRegisterAnother }) {
       <button
         type="button"
         onClick={onRegisterAnother}
-        className="w-full text-gray-500 text-sm hover:text-black transition-colors duration-200 min-h-11"
+        className="w-full text-gray-500 text-sm hover:text-ink transition-colors duration-200 min-h-11"
       >
         Register Someone Else on This Phone
       </button>

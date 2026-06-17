@@ -8,12 +8,12 @@ export default function Footer() {
   return (
     <footer className="bg-gray-50 border-t border-gray-200 py-10 px-4">
       <div className="max-w-6xl mx-auto text-center">
-        <h2 className="font-semibold text-black mb-4">Contact</h2>
-        <ul className="flex flex-col sm:flex-row sm:justify-center gap-3 sm:gap-8 text-gray-600">
+        <h2 className="font-display font-semibold text-ink mb-4">Contact</h2>
+        <ul className="flex flex-col sm:flex-row sm:justify-center gap-3 sm:gap-8 text-neutral">
           {CONTACTS.map((contact) => (
             <li key={contact.name}>
               {contact.name}:{' '}
-              <a href={`tel:${contact.phone}`} className="text-black hover:underline">
+              <a href={`tel:${contact.phone}`} className="text-ink hover:text-lime transition-colors duration-200">
                 {contact.display}
               </a>
             </li>

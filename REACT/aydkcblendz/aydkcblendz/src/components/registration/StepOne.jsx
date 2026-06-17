@@ -36,7 +36,7 @@ export default function StepOne({ initialData, onSubmit }) {
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          className="w-full border border-gray-300 rounded-md px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-black"
+          className="w-full border border-gray-300 rounded-md px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-lime"
           aria-invalid={Boolean(errors.name)}
           aria-describedby={errors.name ? 'name-error' : undefined}
         />
@@ -57,7 +57,7 @@ export default function StepOne({ initialData, onSubmit }) {
           value={whatsapp}
           onChange={(e) => setWhatsapp(e.target.value)}
           placeholder="+2348012345678"
-          className="w-full border border-gray-300 rounded-md px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-black"
+          className="w-full border border-gray-300 rounded-md px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-lime"
           aria-invalid={Boolean(errors.whatsapp)}
           aria-describedby={errors.whatsapp ? 'whatsapp-error' : undefined}
         />
@@ -77,7 +77,7 @@ export default function StepOne({ initialData, onSubmit }) {
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="w-full border border-gray-300 rounded-md px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-black"
+          className="w-full border border-gray-300 rounded-md px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-lime"
           aria-invalid={Boolean(errors.email)}
           aria-describedby={errors.email ? 'email-error' : undefined}
         />
@@ -96,7 +96,7 @@ export default function StepOne({ initialData, onSubmit }) {
           id="deanery"
           value={deanery}
           onChange={(e) => setDeanery(e.target.value)}
-          className="w-full border border-gray-300 rounded-md px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-black"
+          className="w-full border border-gray-300 rounded-md px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-lime"
           aria-invalid={Boolean(errors.deanery)}
           aria-describedby={errors.deanery ? 'deanery-error' : undefined}
         >
@@ -117,7 +117,7 @@ export default function StepOne({ initialData, onSubmit }) {
       <button
         type="submit"
         disabled={submitting}
-        className="w-full bg-green-600 text-white rounded-md py-3 font-medium hover:bg-green-700 transition-colors duration-200 disabled:opacity-60 min-h-11"
+        className="w-full bg-lime text-ink rounded-md py-3 font-display font-semibold hover:bg-gold transition-colors duration-200 disabled:opacity-60 min-h-11"
       >
         {submitting ? 'Submitting...' : 'INTERESTED →'}
       </button>

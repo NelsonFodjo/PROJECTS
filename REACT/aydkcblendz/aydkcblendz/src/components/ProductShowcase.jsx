@@ -30,9 +30,13 @@ export default function ProductShowcase() {
   return (
     <section id="blends" className="max-w-6xl mx-auto px-4 py-16">
       <div className="text-center mb-10">
-        <h2 className="text-3xl font-bold text-black">THE BLENDS</h2>
-        <p className="text-gray-600 mt-2 font-medium">Freshly crafted, naturally bold</p>
-        <p className="text-gray-500 mt-2 max-w-xl mx-auto">
+        <p className="font-display font-semibold text-lime uppercase text-sm tracking-wide">
+          The Blends
+        </p>
+        <h2 className="font-display font-bold text-3xl text-ink mt-1">
+          Freshly crafted, naturally bold
+        </h2>
+        <p className="text-neutral mt-2 max-w-xl mx-auto">
           Every KcBlendz drink is made from real fruit and natural ingredients. Here's what you'll
           be tasting on the day.
         </p>
@@ -42,8 +46,9 @@ export default function ProductShowcase() {
         {PRODUCTS.map((product) => (
           <div
             key={product.name}
-            className="rounded-lg shadow-sm border border-gray-200 overflow-hidden"
+            className="rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-elevated transition-shadow duration-300"
           >
+            <div className="h-1 bg-lime" />
             <img
               src={product.image}
               alt={product.name}
@@ -51,8 +56,8 @@ export default function ProductShowcase() {
               loading="lazy"
             />
             <div className="p-4">
-              <h3 className="font-semibold text-black">{product.name}</h3>
-              <p className="text-gray-500 text-sm mt-1">{product.description}</p>
+              <h3 className="font-display font-semibold text-ink">{product.name}</h3>
+              <p className="text-neutral text-sm mt-1">{product.description}</p>
             </div>
           </div>
         ))}

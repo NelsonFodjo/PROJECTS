@@ -83,12 +83,27 @@ export default function RegistrationModal({ onClose }) {
           type="button"
           onClick={onClose}
           aria-label="Close registration form"
-          className="absolute top-4 right-4 text-gray-400 hover:text-black w-11 h-11 flex items-center justify-center"
+          className="absolute top-4 right-4 text-gray-400 hover:text-ink w-11 h-11 flex items-center justify-center"
         >
           ✕
         </button>
 
-        <h2 className="text-center text-lg font-bold text-black mb-6">AYD with KcBlendz</h2>
+        <h2 className="text-center font-display font-bold text-lg text-ink mb-4">
+          AYD with KcBlendz
+        </h2>
+
+        {step <= 3 && (
+          <div className="flex items-center justify-center gap-2 mb-6">
+            {[1, 2, 3].map((s) => (
+              <span
+                key={s}
+                className={`h-2 rounded-full transition-all duration-300 ${
+                  s === step ? 'w-8 bg-lime' : s < step ? 'w-2 bg-lime' : 'w-2 bg-gray-200'
+                }`}
+              />
+            ))}
+          </div>
+        )}
 
         {error && <p className="text-red-600 text-sm mb-3 text-center">{error}</p>}
 
@@ -112,21 +127,21 @@ export default function RegistrationModal({ onClose }) {
 
         {step === 4 && (
           <div className="text-center space-y-4">
-            <h3 className="text-xl font-semibold text-black">Thanks, {form.name}!</h3>
-            <p className="text-gray-600">
+            <h3 className="font-display font-semibold text-xl text-ink">Thanks, {form.name}!</h3>
+            <p className="text-neutral">
               You're all set for AYD on August 9. Don't forget your QR code for the raffle.
             </p>
             <button
               type="button"
               onClick={onClose}
-              className="w-full bg-black text-white rounded-md py-3 font-medium hover:bg-gray-800 transition-colors duration-200 min-h-11"
+              className="w-full bg-lime text-ink rounded-md py-3 font-display font-semibold hover:bg-gold transition-colors duration-200 min-h-11"
             >
               Close
             </button>
             <button
               type="button"
               onClick={handleRegisterAnother}
-              className="w-full text-gray-500 text-sm hover:text-black transition-colors duration-200 min-h-11"
+              className="w-full text-gray-500 text-sm hover:text-ink transition-colors duration-200 min-h-11"
             >
               Register Someone Else on This Phone
             </button>
