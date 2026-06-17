@@ -24,7 +24,7 @@ export default function StepOne({ initialData, onSubmit }) {
 
   async function handleSubmit(e) {
     e.preventDefault()
-    const whatsapp = `${countryCode}${localNumber.trim().replace(/^0+/, '')}`
+    const whatsapp = `${countryCode}${localNumber.trim().replace(/\s+/g, '').replace(/^0+/, '')}`
     const data = { name: name.trim(), whatsapp, email: email.trim(), deanery }
     const newErrors = validateStepOne(data)
     setErrors(newErrors)
@@ -48,7 +48,10 @@ export default function StepOne({ initialData, onSubmit }) {
           id="name"
           type="text"
           value={name}
-          onChange={(e) => setName(e.target.value)}
+          onChange={(e) => {
+            setName(e.target.value)
+            setErrors((prev) => ({ ...prev, name: undefined }))
+          }}
           placeholder="Enter your full name"
           className={inputClasses}
           aria-invalid={Boolean(errors.name)}
@@ -70,7 +73,7 @@ export default function StepOne({ initialData, onSubmit }) {
             value={countryCode}
             onChange={(e) => setCountryCode(e.target.value)}
             aria-label="Country code"
-            className={`${inputClasses} w-auto shrink-0 px-2`}
+            className={`${inputClasses} basis-[88px] grow-0 shrink-0 px-2`}
           >
             {COUNTRY_CODES.map((c) => (
               <option key={c.code} value={c.code}>
@@ -82,9 +85,12 @@ export default function StepOne({ initialData, onSubmit }) {
             id="whatsapp"
             type="tel"
             value={localNumber}
-            onChange={(e) => setLocalNumber(e.target.value.replace(/[^0-9\s]/g, ''))}
+            onChange={(e) => {
+              setLocalNumber(e.target.value.replace(/[^0-9\s]/g, ''))
+              setErrors((prev) => ({ ...prev, whatsapp: undefined }))
+            }}
             placeholder="803 727 8271"
-            className={`${inputClasses} flex-1 min-w-0`}
+            className={`${inputClasses} grow basis-0 min-w-0`}
             aria-invalid={Boolean(errors.whatsapp)}
             aria-describedby={errors.whatsapp ? 'whatsapp-error' : undefined}
           />
@@ -104,7 +110,10 @@ export default function StepOne({ initialData, onSubmit }) {
           id="email"
           type="email"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(e) => {
+            setEmail(e.target.value)
+            setErrors((prev) => ({ ...prev, email: undefined }))
+          }}
           placeholder="your@email.com"
           className={inputClasses}
           aria-invalid={Boolean(errors.email)}
@@ -124,7 +133,10 @@ export default function StepOne({ initialData, onSubmit }) {
         <select
           id="deanery"
           value={deanery}
-          onChange={(e) => setDeanery(e.target.value)}
+          onChange={(e) => {
+            setDeanery(e.target.value)
+            setErrors((prev) => ({ ...prev, deanery: undefined }))
+          }}
           className={inputClasses}
           aria-invalid={Boolean(errors.deanery)}
           aria-describedby={errors.deanery ? 'deanery-error' : undefined}

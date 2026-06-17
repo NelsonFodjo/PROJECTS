@@ -22,7 +22,7 @@ const MARQUEE_WORDS = [
 
 function Marquee() {
   return (
-    <div className="absolute bottom-0 left-0 right-0 z-10 border-t border-white/10 bg-ink/50 py-3 overflow-hidden">
+    <div className="absolute bottom-0 left-0 right-0 z-20 border-t border-white/10 bg-ink/50 py-3 overflow-hidden">
       <motion.div
         className="flex w-max whitespace-nowrap items-center"
         animate={{ x: ['0%', '-50%'] }}
@@ -60,12 +60,12 @@ export default function Hero({ onRegisterClick }) {
 
   return (
     <section
-      className="relative overflow-hidden bg-cover bg-center min-h-screen flex items-center"
+      className="relative overflow-hidden bg-cover bg-center min-h-screen flex flex-col items-center justify-center"
       style={{ backgroundImage: `url(${SMOOTHIE_IMG})` }}
     >
       <div className="absolute inset-0 bg-gradient-to-b from-ink/70 via-ink/50 to-ink/80" />
 
-      <div className="max-w-3xl mx-auto px-4 pt-16 sm:pt-20 pb-24 relative z-10 text-center w-full">
+      <div className="max-w-3xl mx-auto px-4 pt-16 sm:pt-20 pb-12 sm:pb-24 relative z-10 text-center w-full">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
@@ -74,12 +74,12 @@ export default function Hero({ onRegisterClick }) {
           <img
             src={KCBLENDZ_LOGO}
             alt="KcBlendz"
-            className="h-20 sm:h-32 w-auto mx-auto mb-3"
+            className="h-20 sm:h-35 w-auto mx-auto mb-3"
             loading="lazy"
           />
 
           <div className="flex items-center justify-center gap-2">
-            <img src={AYD_LOGO} alt="AYD" className="h-10 sm:h-15 w-auto" loading="lazy" />
+            <img src={AYD_LOGO} alt="AYD" className="h-10 sm:h-20 w-auto" loading="lazy" />
             <span className="inline-block bg-lime text-ink font-display font-semibold text-xs sm:text-sm px-4 py-1.5 rounded-full uppercase tracking-wide">
               August 9, 2026
             </span>
