@@ -51,7 +51,20 @@ export default function App(){
   });
 
   return(
-    
+    <>
+    <h1>
+      List of People 
+    </h1>
+    <ul>
+      {highWeight.sort((a,b) =>{
+        return a.weight - b.weight
+      }).map(c =>{
+        return( <li>{c.name} - {c.weight}
+        </li>
+        )
+      })}
+    </ul>
+    </>
   )
 }
 
