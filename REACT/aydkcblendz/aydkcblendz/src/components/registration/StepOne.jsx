@@ -1,10 +1,24 @@
 import { useState } from 'react'
 import { DEANERIES } from '../../utils/deaneries'
 import { validateStepOne } from '../../utils/validation'
+import { COUNTRY_CODES, DEFAULT_COUNTRY_CODE } from '../../utils/countryCodes'
+
+const inputClasses =
+  'w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-lime/30 focus:border-lime transition-colors duration-150'
+
+function parseInitialWhatsapp(value) {
+  const match = COUNTRY_CODES.find((c) => value.startsWith(c.code))
+  if (match) {
+    return { countryCode: match.code, localNumber: value.slice(match.code.length).trim() }
+  }
+  return { countryCode: DEFAULT_COUNTRY_CODE, localNumber: value }
+}
 
 export default function StepOne({ initialData, onSubmit }) {
+  const initialWhatsapp = parseInitialWhatsapp(initialData.whatsapp)
   const [name, setName] = useState(initialData.name)
-  const [whatsapp, setWhatsapp] = useState(initialData.whatsapp)
+  const [countryCode, setCountryCode] = useState(initialWhatsapp.countryCode)
+  const [localNumber, setLocalNumber] = useState(initialWhatsapp.localNumber)
   const [email, setEmail] = useState(initialData.email)
   const [deanery, setDeanery] = useState(initialData.deanery)
   const [errors, setErrors] = useState({})
@@ -12,7 +26,8 @@ export default function StepOne({ initialData, onSubmit }) {
 
   async function handleSubmit(e) {
     e.preventDefault()
-    const data = { name: name.trim(), whatsapp: whatsapp.trim(), email: email.trim(), deanery }
+    const whatsapp = `${countryCode}${localNumber.trim().replace(/^0+/, '')}`
+    const data = { name: name.trim(), whatsapp, email: email.trim(), deanery }
     const newErrors = validateStepOne(data)
     setErrors(newErrors)
     if (Object.keys(newErrors).length > 0) return
@@ -26,50 +41,65 @@ export default function StepOne({ initialData, onSubmit }) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit} className="space-y-5">
       <div>
-        <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
-          Name
+        <label htmlFor="name" className="block text-sm font-semibold text-ink mb-1.5">
+          Full Name *
         </label>
         <input
           id="name"
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          className="w-full border border-gray-300 rounded-md px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-lime"
+          placeholder="Enter your full name"
+          className={inputClasses}
           aria-invalid={Boolean(errors.name)}
           aria-describedby={errors.name ? 'name-error' : undefined}
         />
         {errors.name && (
-          <p id="name-error" className="text-red-600 text-sm mt-1">
+          <p id="name-error" className="text-coral text-sm mt-1">
             {errors.name}
           </p>
         )}
       </div>
 
       <div>
-        <label htmlFor="whatsapp" className="block text-sm font-medium text-gray-700 mb-1">
-          WhatsApp Number
+        <label htmlFor="whatsapp" className="block text-sm font-semibold text-ink mb-1.5">
+          WhatsApp Number *
         </label>
-        <input
-          id="whatsapp"
-          type="tel"
-          value={whatsapp}
-          onChange={(e) => setWhatsapp(e.target.value)}
-          placeholder="+2348012345678"
-          className="w-full border border-gray-300 rounded-md px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-lime"
-          aria-invalid={Boolean(errors.whatsapp)}
-          aria-describedby={errors.whatsapp ? 'whatsapp-error' : undefined}
-        />
+        <div className="flex flex-col sm:flex-row gap-2">
+          <select
+            value={countryCode}
+            onChange={(e) => setCountryCode(e.target.value)}
+            aria-label="Country code"
+            className={`${inputClasses} w-full sm:w-[130px] shrink-0 px-3`}
+          >
+            {COUNTRY_CODES.map((c) => (
+              <option key={c.code} value={c.code}>
+                {c.flag} {c.code}
+              </option>
+            ))}
+          </select>
+          <input
+            id="whatsapp"
+            type="tel"
+            value={localNumber}
+            onChange={(e) => setLocalNumber(e.target.value.replace(/[^0-9\s]/g, ''))}
+            placeholder="803 727 8271"
+            className={`${inputClasses} flex-1 min-w-0`}
+            aria-invalid={Boolean(errors.whatsapp)}
+            aria-describedby={errors.whatsapp ? 'whatsapp-error' : undefined}
+          />
+        </div>
         {errors.whatsapp && (
-          <p id="whatsapp-error" className="text-red-600 text-sm mt-1">
+          <p id="whatsapp-error" className="text-coral text-sm mt-1">
             {errors.whatsapp}
           </p>
         )}
       </div>
 
       <div>
-        <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+        <label htmlFor="email" className="block text-sm font-semibold text-ink mb-1.5">
           Email (optional)
         </label>
         <input
@@ -77,26 +107,27 @@ export default function StepOne({ initialData, onSubmit }) {
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="w-full border border-gray-300 rounded-md px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-lime"
+          placeholder="your@email.com"
+          className={inputClasses}
           aria-invalid={Boolean(errors.email)}
           aria-describedby={errors.email ? 'email-error' : undefined}
         />
         {errors.email && (
-          <p id="email-error" className="text-red-600 text-sm mt-1">
+          <p id="email-error" className="text-coral text-sm mt-1">
             {errors.email}
           </p>
         )}
       </div>
 
       <div>
-        <label htmlFor="deanery" className="block text-sm font-medium text-gray-700 mb-1">
-          Deanery
+        <label htmlFor="deanery" className="block text-sm font-semibold text-ink mb-1.5">
+          Deanery *
         </label>
         <select
           id="deanery"
           value={deanery}
           onChange={(e) => setDeanery(e.target.value)}
-          className="w-full border border-gray-300 rounded-md px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-lime"
+          className={inputClasses}
           aria-invalid={Boolean(errors.deanery)}
           aria-describedby={errors.deanery ? 'deanery-error' : undefined}
         >
@@ -108,7 +139,7 @@ export default function StepOne({ initialData, onSubmit }) {
           ))}
         </select>
         {errors.deanery && (
-          <p id="deanery-error" className="text-red-600 text-sm mt-1">
+          <p id="deanery-error" className="text-coral text-sm mt-1">
             {errors.deanery}
           </p>
         )}
@@ -117,9 +148,9 @@ export default function StepOne({ initialData, onSubmit }) {
       <button
         type="submit"
         disabled={submitting}
-        className="w-full bg-lime text-ink rounded-md py-3 font-display font-semibold hover:bg-gold transition-colors duration-200 disabled:opacity-60 min-h-11"
+        className="w-full bg-lime text-ink rounded-full py-3.5 font-display font-semibold hover:bg-gold transition-colors duration-200 disabled:opacity-60 min-h-12"
       >
-        {submitting ? 'Submitting...' : 'INTERESTED →'}
+        {submitting ? 'Submitting...' : 'Submit Interest'}
       </button>
     </form>
   )

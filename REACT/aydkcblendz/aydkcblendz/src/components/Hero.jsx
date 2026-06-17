@@ -8,7 +8,38 @@ const KCBLENDZ_LOGO =
   'https://res.cloudinary.com/dazv72mhz/image/upload/v1781727958/kcblendz_logo-removebg-preview_rcs9lv.png'
 const AYD_LOGO = 'https://res.cloudinary.com/dazv72mhz/image/upload/v1781722506/ayd_logo_qiru5y.png'
 
-const MARQUEE_WORDS = ['Fresh', 'Natural', 'Bold', 'Nourishing Lives', 'Inspiring Wellness']
+const MARQUEE_WORDS = [
+  { text: 'Nourishing Lives', color: 'text-lime' },
+  { text: 'Inspiring Wellness', color: 'text-gold' },
+  { text: 'Fresh', color: 'text-white' },
+  { text: 'Natural', color: 'text-lime' },
+  { text: 'Bold', color: 'text-gold' },
+  { text: 'Vibrant', color: 'text-white' },
+  { text: 'Community', color: 'text-lime' },
+  { text: 'Refreshing', color: 'text-gold' },
+  { text: 'AYD 2026', color: 'text-white' },
+]
+
+function Marquee() {
+  return (
+    <div className="absolute bottom-0 left-0 right-0 z-10 border-t border-white/10 bg-ink/50 py-3 overflow-hidden">
+      <motion.div
+        className="flex w-max whitespace-nowrap items-center"
+        animate={{ x: ['0%', '-50%'] }}
+        transition={{ duration: 18, repeat: Infinity, ease: 'linear' }}
+      >
+        {[...MARQUEE_WORDS, ...MARQUEE_WORDS].map((word, i) => (
+          <span key={`${word.text}-${i}`} className="flex items-center">
+            <span className={`font-display font-semibold text-sm uppercase tracking-wide ${word.color}`}>
+              {word.text}
+            </span>
+            <span className="text-white/40 mx-3">&middot;</span>
+          </span>
+        ))}
+      </motion.div>
+    </div>
+  )
+}
 
 function CountdownBox({ value, label }) {
   return (
@@ -29,22 +60,23 @@ export default function Hero({ onRegisterClick }) {
 
   return (
     <section
-      className="relative overflow-hidden bg-cover bg-center min-h-[640px] flex items-center"
+      className="relative overflow-hidden bg-cover bg-center min-h-screen flex items-center"
       style={{ backgroundImage: `url(${SMOOTHIE_IMG})` }}
     >
       <div className="absolute inset-0 bg-gradient-to-b from-ink/70 via-ink/50 to-ink/80" />
 
-      <div className="max-w-3xl mx-auto px-4 py-20 relative z-10 text-center w-full">
+      <div className="max-w-3xl mx-auto px-4 py-20 pb-24 relative z-10 text-center w-full">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: 'easeOut' }}
         >
-          <div className="flex items-center justify-center gap-3 mb-6">
-            <img src={KCBLENDZ_LOGO} alt="KcBlendz" className="h-10 w-auto" loading="lazy" />
-            <span className="text-white/60">&times;</span>
-            <img src={AYD_LOGO} alt="AYD" className="h-10 w-auto" loading="lazy" />
-          </div>
+          <img
+            src={KCBLENDZ_LOGO}
+            alt="KcBlendz"
+            className="h-20 sm:h-28 w-auto mx-auto mb-6"
+            loading="lazy"
+          />
 
           <span className="inline-block bg-lime text-ink font-display font-semibold text-xs sm:text-sm px-4 py-1.5 rounded-full uppercase tracking-wide">
             August 9, 2026
@@ -87,21 +119,17 @@ export default function Hero({ onRegisterClick }) {
           >
             Indicate Your Interest
           </motion.button>
+
+          <img
+            src={AYD_LOGO}
+            alt="AYD"
+            className="h-10 w-auto mx-auto mt-6"
+            loading="lazy"
+          />
         </motion.div>
       </div>
 
-      <div className="relative z-10 border-t border-white/10 bg-ink/40 py-3 overflow-hidden">
-        <div className="flex animate-marquee whitespace-nowrap">
-          {[...MARQUEE_WORDS, ...MARQUEE_WORDS, ...MARQUEE_WORDS].map((word, i) => (
-            <span
-              key={`${word}-${i}`}
-              className="font-display font-semibold text-sm uppercase tracking-wide mx-6 text-white/70"
-            >
-              {word}
-            </span>
-          ))}
-        </div>
-      </div>
+      <Marquee />
     </section>
   )
 }

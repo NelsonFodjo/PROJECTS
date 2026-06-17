@@ -1,5 +1,6 @@
 create table if not exists registrations (
   id uuid primary key default gen_random_uuid(),
+  registration_number bigint generated always as identity,
   name text not null,
   whatsapp text not null,
   email text,

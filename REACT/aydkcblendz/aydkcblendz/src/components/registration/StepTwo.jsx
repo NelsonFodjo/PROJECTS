@@ -1,7 +1,8 @@
 import { useRef } from 'react'
+import { CheckCircle, Download } from 'lucide-react'
 import { QRCodeCanvas } from 'qrcode.react'
 
-export default function StepTwo({ qrCodeId, onContinue, onRegisterAnother }) {
+export default function StepTwo({ qrCodeId, registrationNumber, onContinue, onRegisterAnother }) {
   const canvasWrapperRef = useRef(null)
 
   function handleDownload() {
@@ -10,45 +11,67 @@ export default function StepTwo({ qrCodeId, onContinue, onRegisterAnother }) {
     const url = canvas.toDataURL('image/png')
     const link = document.createElement('a')
     link.href = url
-    link.download = `${qrCodeId}.png`
+    link.download =
+      registrationNumber != null ? `KcBlendz-AYD-${registrationNumber}.png` : `${qrCodeId}.png`
     link.click()
   }
 
   return (
-    <div className="text-center space-y-4">
-      <h2 className="font-display font-bold text-2xl text-ink">🎉 You're In!</h2>
-
-      <div ref={canvasWrapperRef} className="flex justify-center">
-        <QRCodeCanvas value={qrCodeId} size={280} includeMargin />
+    <div className="text-center space-y-5">
+      <div className="w-14 h-14 rounded-full bg-lime/20 flex items-center justify-center mx-auto">
+        <CheckCircle className="text-lime" size={28} />
       </div>
 
-      <p className="text-gray-700 font-medium">
-        📌 Show this at AYD on Aug 9 to be eligible for the raffle
-      </p>
+      <div>
+        <h2 className="font-display font-bold text-2xl text-ink">You're In!</h2>
+        {registrationNumber != null && (
+          <p className="text-neutral text-xs mt-1">Interest #{registrationNumber}</p>
+        )}
+        <p className="text-neutral text-sm mt-2">
+          Show this at AYD on Aug 9 to be eligible for the raffle
+        </p>
+      </div>
 
-      <button
-        type="button"
-        onClick={handleDownload}
-        className="w-full border border-gray-300 text-gray-700 rounded-md py-2.5 font-medium hover:bg-gray-50 transition-colors duration-200 min-h-11"
+      <div
+        ref={canvasWrapperRef}
+        className="bg-white rounded-xl p-3 sm:p-4 inline-block border border-gray-100 shadow-soft max-w-full"
       >
-        Download QR Code
-      </button>
+        <QRCodeCanvas value={qrCodeId} size={200} includeMargin />
+      </div>
 
-      <button
-        type="button"
-        onClick={onContinue}
-        className="w-full bg-lime text-ink rounded-md py-3 font-display font-semibold hover:bg-gold transition-colors duration-200 min-h-11"
-      >
-        CONTINUE →
-      </button>
+      <div>
+        <p className="text-xs text-neutral mb-1">Registration ID (for manual check-in)</p>
+        <p className="font-mono text-xs text-ink bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 select-all break-all">
+          {qrCodeId}
+        </p>
+      </div>
 
-      <button
-        type="button"
-        onClick={onRegisterAnother}
-        className="w-full text-gray-500 text-sm hover:text-ink transition-colors duration-200 min-h-11"
-      >
-        Register Someone Else on This Phone
-      </button>
+      <div className="flex flex-col gap-3">
+        <button
+          type="button"
+          onClick={handleDownload}
+          className="w-full flex items-center justify-center gap-2 border border-gray-200 text-ink rounded-xl py-3 font-medium hover:border-lime hover:bg-lime/5 transition-colors duration-200 min-h-11"
+        >
+          <Download size={16} />
+          Download QR Code
+        </button>
+
+        <button
+          type="button"
+          onClick={onContinue}
+          className="w-full bg-lime text-ink rounded-xl py-3 font-display font-semibold hover:bg-gold transition-colors duration-200 min-h-11"
+        >
+          Continue
+        </button>
+
+        <button
+          type="button"
+          onClick={onRegisterAnother}
+          className="w-full text-gray-500 text-sm hover:text-ink transition-colors duration-200 min-h-11"
+        >
+          Register Someone Else on This Phone
+        </button>
+      </div>
     </div>
   )
 }

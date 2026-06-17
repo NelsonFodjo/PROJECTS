@@ -3,6 +3,7 @@ import StepOne from './registration/StepOne'
 import StepTwo from './registration/StepTwo'
 import StepThree from './registration/StepThree'
 import { insertRegistration, updateRegistration } from '../hooks/useRegistrations'
+import { addRegistrationToHistory } from '../utils/registrationHistory'
 
 const initialForm = {
   name: '',
@@ -19,6 +20,7 @@ export default function RegistrationModal({ onClose }) {
   const [form, setForm] = useState(initialForm)
   const [qrCodeId, setQrCodeId] = useState('')
   const [registrationDbId, setRegistrationDbId] = useState(null)
+  const [registrationNumber, setRegistrationNumber] = useState(null)
   const [error, setError] = useState('')
 
   useEffect(() => {
@@ -43,6 +45,12 @@ export default function RegistrationModal({ onClose }) {
       setForm((prev) => ({ ...prev, ...data }))
       setQrCodeId(newQrCodeId)
       setRegistrationDbId(inserted.id)
+      setRegistrationNumber(inserted.registration_number)
+      addRegistrationToHistory({
+        qrCodeId: newQrCodeId,
+        name: data.name,
+        registrationNumber: inserted.registration_number,
+      })
       setStep(2)
     } catch {
       setError('Something went wrong. Please try again.')
@@ -68,17 +76,18 @@ export default function RegistrationModal({ onClose }) {
     setForm(initialForm)
     setQrCodeId('')
     setRegistrationDbId(null)
+    setRegistrationNumber(null)
     setError('')
     setStep(1)
   }
 
   return (
     <div
-      className="fixed inset-0 bg-black/60 flex items-center justify-center px-4 py-8 z-50 overflow-y-auto"
+      className="fixed inset-0 bg-black/60 flex items-center justify-center p-0 sm:p-4 z-50"
       role="dialog"
       aria-modal="true"
     >
-      <div className="w-full max-w-md bg-white rounded-lg shadow-xl p-6 relative my-auto">
+      <div className="w-full h-full sm:h-auto sm:max-w-md sm:max-h-[90vh] bg-white rounded-none sm:rounded-2xl shadow-deep p-5 sm:p-7 relative overflow-y-auto">
         <button
           type="button"
           onClick={onClose}
@@ -88,9 +97,10 @@ export default function RegistrationModal({ onClose }) {
           ✕
         </button>
 
-        <h2 className="text-center font-display font-bold text-lg text-ink mb-4">
-          AYD with KcBlendz
+        <h2 className="text-center font-display font-bold text-xl text-ink mb-1">
+          Indicate Your Interest
         </h2>
+        <p className="text-center text-neutral text-sm mb-5">AYD 2026 — August 9, 2026</p>
 
         {step <= 3 && (
           <div className="flex items-center justify-center gap-2 mb-6">
@@ -112,6 +122,7 @@ export default function RegistrationModal({ onClose }) {
         {step === 2 && (
           <StepTwo
             qrCodeId={qrCodeId}
+            registrationNumber={registrationNumber}
             onContinue={() => setStep(3)}
             onRegisterAnother={handleRegisterAnother}
           />
@@ -134,7 +145,7 @@ export default function RegistrationModal({ onClose }) {
             <button
               type="button"
               onClick={onClose}
-              className="w-full bg-lime text-ink rounded-md py-3 font-display font-semibold hover:bg-gold transition-colors duration-200 min-h-11"
+              className="w-full bg-lime text-ink rounded-full py-3 font-display font-semibold hover:bg-gold transition-colors duration-200 min-h-11"
             >
               Close
             </button>

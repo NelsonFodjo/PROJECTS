@@ -8,6 +8,7 @@ export function formatTimestamp(isoString) {
 
 export function toCsv(rows) {
   const columns = [
+    'registration_number',
     'name',
     'whatsapp',
     'email',
