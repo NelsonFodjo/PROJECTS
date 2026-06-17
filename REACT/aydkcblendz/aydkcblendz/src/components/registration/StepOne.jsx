@@ -2,9 +2,7 @@ import { useState } from 'react'
 import { DEANERIES } from '../../utils/deaneries'
 import { validateStepOne } from '../../utils/validation'
 import { COUNTRY_CODES, DEFAULT_COUNTRY_CODE } from '../../utils/countryCodes'
-
-const inputClasses =
-  'w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-lime/30 focus:border-lime transition-colors duration-150'
+import { inputClasses, primaryButtonClasses } from '../../utils/uiClasses'
 
 function parseInitialWhatsapp(value) {
   const match = COUNTRY_CODES.find((c) => value.startsWith(c.code))
@@ -67,12 +65,12 @@ export default function StepOne({ initialData, onSubmit }) {
         <label htmlFor="whatsapp" className="block text-sm font-semibold text-ink mb-1.5">
           WhatsApp Number *
         </label>
-        <div className="flex flex-col sm:flex-row gap-2">
+        <div className="flex gap-2">
           <select
             value={countryCode}
             onChange={(e) => setCountryCode(e.target.value)}
             aria-label="Country code"
-            className={`${inputClasses} w-full sm:w-[130px] shrink-0 px-3`}
+            className={`${inputClasses} w-auto shrink-0 px-2`}
           >
             {COUNTRY_CODES.map((c) => (
               <option key={c.code} value={c.code}>
@@ -148,7 +146,7 @@ export default function StepOne({ initialData, onSubmit }) {
       <button
         type="submit"
         disabled={submitting}
-        className="w-full bg-lime text-ink rounded-full py-3.5 font-display font-semibold hover:bg-gold transition-colors duration-200 disabled:opacity-60 min-h-12"
+        className={`w-full py-3.5 min-h-12 ${primaryButtonClasses}`}
       >
         {submitting ? 'Submitting...' : 'Submit Interest'}
       </button>

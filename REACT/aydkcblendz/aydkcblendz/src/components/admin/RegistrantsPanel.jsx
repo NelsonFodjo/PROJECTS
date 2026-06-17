@@ -1,7 +1,8 @@
 import { useMemo, useState } from 'react'
-import { Search, Download, CheckCircle } from 'lucide-react'
+import { Search, FileText, CheckCircle } from 'lucide-react'
 import { markAsPurchased } from '../../hooks/useRegistrations'
-import { formatTimestamp, toCsv, downloadCsv } from '../../utils/formatters'
+import { formatTimestamp, printRegistrationsPdf } from '../../utils/formatters'
+import { secondaryButtonClasses } from '../../utils/uiClasses'
 
 export default function RegistrantsPanel({ stats, loading, refresh }) {
   const [query, setQuery] = useState('')
@@ -28,8 +29,7 @@ export default function RegistrantsPanel({ stats, loading, refresh }) {
   }
 
   function handleExport() {
-    const csv = toCsv(stats.rows || [])
-    downloadCsv(csv, `kcblendz-ayd-registrations-${new Date().toISOString().slice(0, 10)}.csv`)
+    printRegistrationsPdf(stats.rows || [])
   }
 
   if (loading) {
@@ -46,16 +46,16 @@ export default function RegistrantsPanel({ stats, loading, refresh }) {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search name, phone, or ID..."
-            className="w-full border-2 border-gray-200 rounded-lg pl-9 pr-3 py-2 focus:outline-none focus:border-lime focus:ring-2 focus:ring-lime/20 transition-colors duration-150"
+            className="w-full bg-white border border-gray-200 rounded-xl pl-9 pr-3 py-2 shadow-xs outline-none transition-all duration-150 focus:border-lime focus:ring-4 focus:ring-lime/15"
           />
         </div>
         <button
           type="button"
           onClick={handleExport}
-          className="flex items-center justify-center gap-1.5 border border-gray-200 text-ink rounded-lg px-4 py-2 font-medium hover:border-lime hover:bg-lime/5 transition-colors duration-200 shrink-0 min-h-11 sm:min-h-0"
+          className={`flex items-center justify-center gap-1.5 text-ink px-4 py-2 shrink-0 min-h-11 sm:min-h-0 ${secondaryButtonClasses}`}
         >
-          <Download size={16} />
-          CSV
+          <FileText size={16} />
+          PDF
         </button>
       </div>
 
@@ -89,15 +89,15 @@ export default function RegistrantsPanel({ stats, loading, refresh }) {
               {row.verified_at ? (
                 <span className="flex items-center gap-1 bg-lime text-ink text-xs font-medium rounded-full px-2.5 py-1 shrink-0">
                   <CheckCircle size={12} />
-                  Verified
+                  Purchased
                 </span>
               ) : (
                 <button
                   type="button"
                   onClick={() => handleVerify(row.id)}
-                  className="text-sm border border-gray-200 rounded-lg px-3 py-1.5 hover:border-lime hover:bg-lime/5 transition-colors duration-200 shrink-0"
+                  className={`text-sm px-3 py-1.5 shrink-0 ${secondaryButtonClasses}`}
                 >
-                  Verify
+                  Mark Purchased
                 </button>
               )}
             </div>

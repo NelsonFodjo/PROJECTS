@@ -1,6 +1,7 @@
 import { useRef } from 'react'
 import { CheckCircle, Download } from 'lucide-react'
 import { QRCodeCanvas } from 'qrcode.react'
+import { primaryButtonClasses, secondaryButtonClasses } from '../../utils/uiClasses'
 
 export default function StepTwo({ qrCodeId, registrationNumber, onContinue, onRegisterAnother }) {
   const canvasWrapperRef = useRef(null)
@@ -50,7 +51,7 @@ export default function StepTwo({ qrCodeId, registrationNumber, onContinue, onRe
         <button
           type="button"
           onClick={handleDownload}
-          className="w-full flex items-center justify-center gap-2 border border-gray-200 text-ink rounded-xl py-3 font-medium hover:border-lime hover:bg-lime/5 transition-colors duration-200 min-h-11"
+          className={`w-full flex items-center justify-center gap-2 py-3 min-h-11 text-ink ${secondaryButtonClasses}`}
         >
           <Download size={16} />
           Download QR Code
@@ -59,7 +60,7 @@ export default function StepTwo({ qrCodeId, registrationNumber, onContinue, onRe
         <button
           type="button"
           onClick={onContinue}
-          className="w-full bg-lime text-ink rounded-xl py-3 font-display font-semibold hover:bg-gold transition-colors duration-200 min-h-11"
+          className={`w-full py-3 min-h-11 ${primaryButtonClasses}`}
         >
           Continue
         </button>

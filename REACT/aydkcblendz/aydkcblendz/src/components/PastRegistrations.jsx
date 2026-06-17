@@ -1,10 +1,18 @@
-import { useRef } from 'react'
-import { ArrowLeft, Download, QrCode } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
+import { ArrowLeft, Download, QrCode, Trophy } from 'lucide-react'
 import { QRCodeCanvas } from 'qrcode.react'
 import { getRegistrationHistory } from '../utils/registrationHistory'
+import { findRegistrationByQrCode } from '../hooks/useRegistrations'
 
 function QrCard({ entry }) {
   const wrapperRef = useRef(null)
+  const [isWinner, setIsWinner] = useState(false)
+
+  useEffect(() => {
+    findRegistrationByQrCode(entry.qrCodeId)
+      .then((registration) => setIsWinner(Boolean(registration?.is_winner)))
+      .catch(() => {})
+  }, [entry.qrCodeId])
 
   function handleDownload() {
     const canvas = wrapperRef.current?.querySelector('canvas')
@@ -20,7 +28,11 @@ function QrCard({ entry }) {
   }
 
   return (
-    <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-soft">
+    <div
+      className={`bg-white rounded-xl border p-6 shadow-soft ${
+        isWinner ? 'border-gold ring-2 ring-gold/40' : 'border-gray-200'
+      }`}
+    >
       <div className="flex items-start justify-between mb-4">
         <div>
           <h3 className="font-display font-semibold text-ink">{entry.name}</h3>
@@ -37,6 +49,14 @@ function QrCard({ entry }) {
           Save
         </button>
       </div>
+
+      {isWinner && (
+        <div className="flex items-center gap-1.5 bg-gold/15 text-ink text-xs font-display font-semibold rounded-full px-3 py-1.5 mb-4 w-fit">
+          <Trophy size={14} className="text-gold" />
+          Raffle Winner!
+        </div>
+      )}
+
       <div ref={wrapperRef} className="bg-white rounded-lg p-3 inline-block border border-gray-100">
         <QRCodeCanvas value={entry.qrCodeId} size={160} includeMargin />
       </div>

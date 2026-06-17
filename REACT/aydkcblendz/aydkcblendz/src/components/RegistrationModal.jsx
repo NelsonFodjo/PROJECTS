@@ -4,6 +4,7 @@ import StepTwo from './registration/StepTwo'
 import StepThree from './registration/StepThree'
 import { insertRegistration, updateRegistration } from '../hooks/useRegistrations'
 import { addRegistrationToHistory } from '../utils/registrationHistory'
+import { primaryButtonClasses } from '../utils/uiClasses'
 
 const initialForm = {
   name: '',
@@ -145,7 +146,7 @@ export default function RegistrationModal({ onClose }) {
             <button
               type="button"
               onClick={onClose}
-              className="w-full bg-lime text-ink rounded-full py-3 font-display font-semibold hover:bg-gold transition-colors duration-200 min-h-11"
+              className={`w-full py-3 min-h-11 ${primaryButtonClasses}`}
             >
               Close
             </button>
