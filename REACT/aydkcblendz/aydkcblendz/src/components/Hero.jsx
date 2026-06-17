@@ -1,44 +1,80 @@
 import { motion } from 'framer-motion'
 import { useRegistrationCount } from '../hooks/useRegistrations'
+import { useCountdown } from '../hooks/useCountdown'
 import AnimatedCounter from './AnimatedCounter'
 
 const SMOOTHIE_IMG = 'https://res.cloudinary.com/dazv72mhz/image/upload/v1781722506/smoothie_ff99dn.jpg'
+const KCBLENDZ_LOGO =
+  'https://res.cloudinary.com/dazv72mhz/image/upload/v1781727958/kcblendz_logo-removebg-preview_rcs9lv.png'
 const AYD_LOGO = 'https://res.cloudinary.com/dazv72mhz/image/upload/v1781722506/ayd_logo_qiru5y.png'
+
+const MARQUEE_WORDS = ['Fresh', 'Natural', 'Bold', 'Nourishing Lives', 'Inspiring Wellness']
+
+function CountdownBox({ value, label }) {
+  return (
+    <div className="bg-white/10 backdrop-blur-sm border border-white/15 rounded-lg px-3 sm:px-4 py-2.5 text-center min-w-16">
+      <div className="font-display font-bold text-2xl sm:text-3xl text-white tabular-nums">
+        {String(value).padStart(2, '0')}
+      </div>
+      <div className="text-[10px] sm:text-xs text-gray-300 mt-0.5 uppercase tracking-wide">
+        {label}
+      </div>
+    </div>
+  )
+}
 
 export default function Hero({ onRegisterClick }) {
   const count = useRegistrationCount()
+  const { days, hours, minutes, seconds } = useCountdown()
 
   return (
     <section
-      className="relative overflow-hidden bg-cover bg-center"
+      className="relative overflow-hidden bg-cover bg-center min-h-[640px] flex items-center"
       style={{ backgroundImage: `url(${SMOOTHIE_IMG})` }}
     >
-      <div className="absolute inset-0 bg-gradient-to-r from-ink/80 via-ink/55 to-ink/20" />
+      <div className="absolute inset-0 bg-gradient-to-b from-ink/70 via-ink/50 to-ink/80" />
 
-      <div className="max-w-6xl mx-auto px-4 py-24 md:py-36 relative z-10">
+      <div className="max-w-3xl mx-auto px-4 py-20 relative z-10 text-center w-full">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: 'easeOut' }}
-          className="max-w-xl"
         >
-          <div className="flex items-center gap-3 mb-5">
+          <div className="flex items-center justify-center gap-3 mb-6">
+            <img src={KCBLENDZ_LOGO} alt="KcBlendz" className="h-10 w-auto" loading="lazy" />
+            <span className="text-white/60">&times;</span>
             <img src={AYD_LOGO} alt="AYD" className="h-10 w-auto" loading="lazy" />
-            <span className="inline-block bg-lime text-ink font-display font-semibold text-sm px-4 py-1.5 rounded-full">
-              August 9, 2026
-            </span>
           </div>
 
-          <h1 className="font-display font-bold text-white text-4xl sm:text-6xl mt-5 leading-tight">
-            AYD with KcBlendz
+          <span className="inline-block bg-lime text-ink font-display font-semibold text-xs sm:text-sm px-4 py-1.5 rounded-full uppercase tracking-wide">
+            August 9, 2026
+          </span>
+
+          <h1 className="font-display font-bold text-white text-3xl sm:text-5xl mt-5 leading-tight">
+            Nourishing Lives!
           </h1>
-          <p className="font-display font-semibold text-lime text-2xl sm:text-3xl mt-2">
-            Experience Something Fresh
+          <p className="font-display font-bold text-lime text-3xl sm:text-5xl leading-tight">
+            Inspiring Wellness!
           </p>
 
-          <p className="text-gray-200 text-lg mt-4 max-w-md leading-relaxed">
-            Join the movement and taste the freshest natural blends in town. Register now, get
-            your QR pass, and be part of something refreshing.
+          <p className="text-gray-200 text-base sm:text-lg mt-4 max-w-lg mx-auto leading-relaxed">
+            Join KcBlendz at AYD for an unforgettable experience of fresh, natural blends and
+            vibrant community.
+          </p>
+
+          <div className="flex items-center justify-center gap-2 sm:gap-4 mt-8">
+            <CountdownBox value={days} label="Days" />
+            <CountdownBox value={hours} label="Hours" />
+            <CountdownBox value={minutes} label="Mins" />
+            <CountdownBox value={seconds} label="Secs" />
+          </div>
+
+          <p className="mt-5 text-gray-300 text-sm flex items-center justify-center gap-2">
+            <span className="inline-block w-2 h-2 rounded-full bg-lime" aria-hidden="true" />
+            <span className="font-semibold text-white">
+              <AnimatedCounter value={count} />
+            </span>
+            people interested
           </p>
 
           <motion.button
@@ -47,19 +83,24 @@ export default function Hero({ onRegisterClick }) {
             whileHover={{ scale: 1.05, boxShadow: '0 8px 16px rgba(0,0,0,0.35)' }}
             whileTap={{ scale: 0.98 }}
             transition={{ duration: 0.2 }}
-            className="font-display font-semibold mt-7 bg-lime text-ink rounded-lg px-6 h-11 inline-flex items-center shadow-soft"
+            className="font-display font-semibold mt-6 bg-lime text-ink rounded-full px-8 h-12 inline-flex items-center shadow-soft"
           >
-            Register Now &rarr;
+            Indicate Your Interest
           </motion.button>
-
-          <p className="mt-5 text-gray-300 text-sm flex items-center gap-2">
-            <span className="inline-block w-2 h-2 rounded-full bg-lime" aria-hidden="true" />
-            <span className="font-semibold text-white">
-              <AnimatedCounter value={count} />
-            </span>
-            people registered so far
-          </p>
         </motion.div>
+      </div>
+
+      <div className="relative z-10 border-t border-white/10 bg-ink/40 py-3 overflow-hidden">
+        <div className="flex animate-marquee whitespace-nowrap">
+          {[...MARQUEE_WORDS, ...MARQUEE_WORDS, ...MARQUEE_WORDS].map((word, i) => (
+            <span
+              key={`${word}-${i}`}
+              className="font-display font-semibold text-sm uppercase tracking-wide mx-6 text-white/70"
+            >
+              {word}
+            </span>
+          ))}
+        </div>
       </div>
     </section>
   )

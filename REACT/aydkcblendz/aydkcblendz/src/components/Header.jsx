@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
 
 const KCBLENDZ_LOGO =
-  'https://res.cloudinary.com/dazv72mhz/image/upload/v1781722507/kcblendz_logo_ghcd0p.png'
+  'https://res.cloudinary.com/dazv72mhz/image/upload/v1781727958/kcblendz_logo-removebg-preview_rcs9lv.png'
 
 export default function Header({ onRegisterClick }) {
   return (
