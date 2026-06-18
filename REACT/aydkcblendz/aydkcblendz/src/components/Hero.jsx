@@ -18,6 +18,7 @@ const MARQUEE_WORDS = [
   { text: 'Community', color: 'text-lime' },
   { text: 'Refreshing', color: 'text-gold' },
   { text: 'AYD 2026', color: 'text-white' },
+  { text: 'KCBLENDZ', color: 'text-white' },
 ]
 
 function Marquee() {
