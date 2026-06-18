@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { v4 as uuidv4 } from 'uuid'
 import StepOne from './registration/StepOne'
 import StepTwo from './registration/StepTwo'
 import StepThree from './registration/StepThree'
@@ -33,9 +34,9 @@ export default function RegistrationModal({ onClose }) {
   }, [onClose])
 
   async function handleStepOneSubmit(data) {
-    const newQrCodeId = crypto.randomUUID()
     try {
       setError('')
+      const newQrCodeId = uuidv4()
       const inserted = await insertRegistration({
         name: data.name,
         whatsapp: data.whatsapp,

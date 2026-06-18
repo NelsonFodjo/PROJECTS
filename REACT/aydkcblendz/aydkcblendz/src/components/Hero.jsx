@@ -60,7 +60,7 @@ export default function Hero({ onRegisterClick }) {
 
   return (
     <section
-      className="relative overflow-hidden bg-cover bg-center min-h-screen flex flex-col items-center justify-center"
+      className="relative overflow-hidden bg-cover bg-center min-h-[100dvh] flex flex-col items-center justify-center"
       style={{ backgroundImage: `url(${SMOOTHIE_IMG})` }}
     >
       <div className="absolute inset-0 bg-gradient-to-b from-ink/70 via-ink/50 to-ink/80" />
@@ -124,7 +124,7 @@ export default function Hero({ onRegisterClick }) {
             }}
             transition={{ duration: 2.4, repeat: Infinity, ease: 'easeOut' }}
             whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.98 }}
+            whileTap={{ scale: 0.95, backgroundColor: '#ffd700' }}
             className="font-display font-semibold mt-5 bg-lime text-ink rounded-full px-8 h-12 inline-flex items-center"
           >
             Indicate Your Interest
