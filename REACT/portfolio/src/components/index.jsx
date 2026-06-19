@@ -55,7 +55,7 @@ const SocialIcon = ({ name }) => (
 );
 
 /* ---------------- Sidebar ---------------- */
-function Sidebar({ route, go, collapsed, setCollapsed, width, startResize, mobileOpen, onMessage, theme }) {
+function Sidebar({ route, go, collapsed, setCollapsed, width, startResize, mobileOpen, onMessage, onResume, theme }) {
   const { profile } = DATA;
   const avatar = theme === "dark" ? avatarDark : avatarLight;
 
@@ -107,10 +107,10 @@ function Sidebar({ route, go, collapsed, setCollapsed, width, startResize, mobil
               </a>
             ))}
           </div>
-          <a className="btn block" href={resumePdf} download>
+          <button className="btn block" onClick={onResume} title="Download Resume">
             <span className="ico"><Icon name="download" /></span>
             <span className="lbl">Download Resume</span>
-          </a>
+          </button>
           <button className="btn primary block" onClick={onMessage} title="Send me a message">
             <span className="ico"><Icon name="mail" /></span>
             <span className="lbl">Send me a message</span>
@@ -204,4 +204,80 @@ function MessageModal({ open, onClose }) {
   );
 }
 
-export { Icon, SocialIcon, Sidebar, ThemeToggle, MessageModal };
+function ResumeGateModal({ open, onClose }) {
+  const [name, setName] = React.useState("");
+  const [email, setEmail] = React.useState("");
+  const [org, setOrg] = React.useState("");
+  const firstRef = React.useRef(null);
+
+  React.useEffect(() => {
+    if (!open) return;
+
+    setTimeout(() => firstRef.current && firstRef.current.focus(), 60);
+    const onKey = (e) => { if (e.key === "Escape") onClose(); };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [open, onClose]);
+
+  if (!open) return null;
+
+  const valid = name.trim() && /\S+@\S+\.\S+/.test(email);
+
+  const submit = (e) => {
+    e.preventDefault();
+    if (!valid) return;
+    try {
+      const entry = { name: name.trim(), email: email.trim(), org: org.trim(), at: new Date().toISOString() };
+      const log = JSON.parse(localStorage.getItem("nf_resume_leads") || "[]");
+      log.push(entry);
+      localStorage.setItem("nf_resume_leads", JSON.stringify(log));
+    } catch { /* ignored */ }
+
+    const a = document.createElement("a");
+    a.href = resumePdf;
+    a.download = "Nelson-Fodjo-Resume.pdf";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+
+    setName(""); setEmail(""); setOrg("");
+    onClose();
+  };
+
+  return (
+    <div className="modal-scrim" onMouseDown={onClose}>
+      <div className="modal" onMouseDown={(e) => e.stopPropagation()} role="dialog" aria-modal="true">
+        <button className="modal-x" onClick={onClose} aria-label="Close">
+          <svg viewBox="0 0 24 24" width="18" height="18"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" strokeWidth="1.7" fill="none"/></svg>
+        </button>
+        <div className="modal-head">
+          <div className="eyebrow">Before you download</div>
+          <h2>Who's asking?</h2>
+          <p>Quick intro so I know who's looking at my resume — then it's all yours.</p>
+        </div>
+        <form className="modal-form" onSubmit={submit}>
+          <label className="field">
+            <span>Name</span>
+            <input ref={firstRef} value={name} onChange={(e) => setName(e.target.value)} placeholder="Your name" />
+          </label>
+          <label className="field">
+            <span>Email</span>
+            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@company.com" />
+          </label>
+          <label className="field">
+            <span>Organisation</span>
+            <input value={org} onChange={(e) => setOrg(e.target.value)} placeholder="Company / school (optional)" />
+          </label>
+          <div className="modal-actions">
+            <button type="button" className="btn" onClick={onClose}>Cancel</button>
+            <button type="submit" className="btn primary" disabled={!valid}>
+              <span className="ico"><Icon name="download" /></span> Download Resume
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+}
+
+export { Icon, SocialIcon, Sidebar, ThemeToggle, MessageModal, ResumeGateModal };

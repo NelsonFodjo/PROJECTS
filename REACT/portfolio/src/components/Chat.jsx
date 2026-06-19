@@ -3,7 +3,8 @@
 import React from 'react';
 import { Icon } from './index';
 import { DATA, SECTION_BLURB } from '../data';
-import avatar from '../assets/nelson.jpeg';
+import avatarLight from '../assets/nelson.jpeg';
+import avatarDark from '../assets/dark_nelson.png';
 
 function buildKnowledge() {
   const d = DATA;
@@ -60,9 +61,10 @@ function fallbackAnswer(text, section) {
   return `I'm Nelson's assistant — happy to tell you about his **education, projects, experience, skills or community work**. What would you like to know? You can also book a 30-minute call or email him at ${d.profile.email}.`;
 }
 
-function Chat({ go, seed, onSeedConsumed }) {
+function Chat({ go, seed, onSeedConsumed, theme }) {
   // eslint-disable-next-line no-unused-vars
   const { profile } = DATA;
+  const avatar = theme === "dark" ? avatarDark : avatarLight;
   const STORE = "nf_chat_v1";
   const [messages, setMessages] = React.useState(() => {
     try { const s = JSON.parse(localStorage.getItem(STORE)); if (s && s.length) return s; } catch { /* ignored */ }
@@ -129,16 +131,20 @@ function Chat({ go, seed, onSeedConsumed }) {
       <div className="chat-scroll" ref={scrollRef}>
         <div className="chat-thread">
           {messages.map((m, i) => (
-            <div className={"msg " + (m.role === "user" ? "user" : "bot")} key={i}>
-              <div className="who">
-                {m.role === "user" ? "You" : <img src={avatar} alt="Nelson" />}
+            m.role === "user" ? (
+              <div className="msg user" key={i}>
+                <div className="bubble"><div className="text">{renderText(m.text)}</div></div>
               </div>
-              <div className="bubble">
-                <div className="name">{m.role === "user" ? "You" : "Nelson's Assistant"}</div>
-                <div className="text">{renderText(m.text)}</div>
-                {m.section && <SectionLink id={m.section} go={go} />}
+            ) : (
+              <div className="msg bot" key={i}>
+                <div className="who"><img src={avatar} alt="Nelson" /></div>
+                <div className="bubble">
+                  <div className="name">Nelson's Assistant</div>
+                  <div className="text">{renderText(m.text)}</div>
+                  {m.section && <SectionLink id={m.section} go={go} />}
+                </div>
               </div>
-            </div>
+            )
           ))}
           {busy && (
             <div className="msg bot">

@@ -1,11 +1,11 @@
 /* Root app: routing, resizable sidebar, theme */
 
 import React from 'react';
-import { Sidebar, Icon, ThemeToggle, MessageModal } from './components/index';
+import { Sidebar, Icon, ThemeToggle, MessageModal, ResumeGateModal } from './components/index';
 import { Chat } from './components/Chat';
-import { TopBar, Hero, Education, Projects, Gallery, Experience, Skills, Community, Blog } from './pages/index';
+import { TopBar, Hero, Education, Projects, Gallery, Experience, Skills, Community, Blog, Contact } from './pages/index';
 
-const ROUTES = ["home", "chat", "education", "projects", "gallery", "experience", "skills", "community", "blog"];
+const ROUTES = ["home", "chat", "education", "projects", "gallery", "experience", "skills", "community", "blog", "contact"];
 
 function App() {
   const getRoute = () => {
@@ -20,9 +20,10 @@ function App() {
     return isNaN(w) ? 286 : Math.min(420, Math.max(232, w));
   });
   const [scrolled, setScrolled] = React.useState(false);
-  const [mobileOpen, setMobileOpen] = React.useState(null); // null = default-hidden on mobile, css handles
+  const [mobileOpen, setMobileOpen] = React.useState(false);
   const [seed, setSeed] = React.useState(null);
   const [msgOpen, setMsgOpen] = React.useState(false);
+  const [resumeOpen, setResumeOpen] = React.useState(false);
   const mainRef = React.useRef(null);
 
   /* routing */
@@ -80,7 +81,7 @@ function App() {
     document.addEventListener("touchend", up);
   };
 
-  const titleMap = { home: "Home", chat: "Chat", education: "Education", projects: "Projects", gallery: "Gallery", experience: "Experience", skills: "Skills", community: "Community", blog: "Blog" };
+  const titleMap = { home: "Home", chat: "Chat", education: "Education", projects: "Projects", gallery: "Gallery", experience: "Experience", skills: "Skills", community: "Community", blog: "Blog", contact: "Contact" };
 
   let page;
   if (route === "home") page = <Hero go={go} theme={theme} />;
@@ -92,19 +93,22 @@ function App() {
   else if (route === "skills") page = <Skills go={go} />;
   else if (route === "community") page = <Community go={go} />;
   else if (route === "blog") page = <Blog />;
+  else if (route === "contact") page = <Contact go={go} onMessage={() => setMsgOpen(true)} />;
 
   const isChat = route === "chat";
 
   return (
     <div className="app">
-      <ThemeToggle theme={theme} setTheme={setTheme} />
+      {!mobileOpen && <ThemeToggle theme={theme} setTheme={setTheme} />}
       <MessageModal open={msgOpen} onClose={() => setMsgOpen(false)} />
+      <ResumeGateModal open={resumeOpen} onClose={() => setResumeOpen(false)} />
       <Sidebar
         route={route} go={go}
         collapsed={collapsed} setCollapsed={setCollapsed}
         width={width} startResize={startResize}
         mobileOpen={mobileOpen}
         onMessage={() => setMsgOpen(true)}
+        onResume={() => setResumeOpen(true)}
         theme={theme}
       />
       <div className={"scrim" + (mobileOpen ? " show" : "")} onClick={() => setMobileOpen(false)}></div>

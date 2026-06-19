@@ -34,7 +34,7 @@ function Hero({ go, theme }) {
         <div className="hero-divider"></div>
         <div className="eyebrow" style={{ marginTop: 18 }}>{profile.tagline}</div>
         <h1>
-          Hi, I'm Nelson.<br />I build <span className="accent">scalable</span> solutions.
+          Hi, I'm Nelson.<br />I Copy, Paste then  <span className="accent">Innovate</span>.
         </h1>
         <p className="lead">{profile.summary}</p>
 
@@ -66,9 +66,36 @@ function Hero({ go, theme }) {
 
       <div className="hero-photo">
         <img src={avatar} alt={profile.fullName} key={theme} />
-        <div className="badge"><span className="pulse"></span> Open to opportunities</div>
       </div>
     </div>
+  );
+}
+
+/* ---------------- Scroll reveal ---------------- */
+function Reveal({ as: Tag = "div", delay = 0, className = "", children, ...rest }) {
+  const ref = React.useRef(null);
+  const [visible, setVisible] = React.useState(false);
+
+  React.useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { setVisible(true); obs.disconnect(); } },
+      { threshold: 0.15, rootMargin: "0px 0px -40px 0px" }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+
+  return (
+    <Tag
+      ref={ref}
+      className={"reveal" + (visible ? " in" : "") + (className ? " " + className : "")}
+      style={{ transitionDelay: visible ? `${delay}ms` : "0ms" }}
+      {...rest}
+    >
+      {children}
+    </Tag>
   );
 }
 
@@ -92,8 +119,8 @@ function Education({ go }) {
     <div className="page">
       <PageHead eyebrow="01 — Education" title="How I learned to build" sub="A blend of formal CS, applied data-science fellowships and a perfect-GPA science foundation." />
       <div className="timeline">
-        {education.map((e) => (
-          <div className="tl-item" key={e.school}>
+        {education.map((e, i) => (
+          <Reveal as="div" className="tl-item" key={e.school} delay={i * 80}>
             <div className="tl-when">{e.when}</div>
             <div className="tl-body">
               <h3>{e.degree}</h3>
@@ -101,17 +128,17 @@ function Education({ go }) {
               {e.note && <div className="tag accent" style={{ display: "inline-block", marginBottom: 6 }}>{e.note}</div>}
               <ul>{e.points.map((p, i) => <li key={i}>{p}</li>)}</ul>
             </div>
-          </div>
+          </Reveal>
         ))}
       </div>
 
       <h3 style={{ fontFamily: "var(--font-mono)", fontSize: 13, textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--ink-3)", margin: "38px 0 14px", fontWeight: 500 }}>Certifications</h3>
       <div className="stack">
         {certifications.map((c, i) => (
-          <div className="card hover" key={i} style={{ display: "flex", gap: 14, alignItems: "center", padding: "16px 20px" }}>
+          <Reveal as="div" className="card hover" key={i} delay={i * 70} style={{ display: "flex", gap: 14, alignItems: "center", padding: "16px 20px" }}>
             <span className="dot"></span>
             <span style={{ fontSize: 14.5 }}>{c}</span>
-          </div>
+          </Reveal>
         ))}
       </div>
       <AskMore go={go} topic="my coursework" />
@@ -127,8 +154,8 @@ function Projects({ go }) {
     <div className="page wide">
       <PageHead eyebrow="02 — Projects" title="Things I've built" sub="From EdTech platforms to zero-knowledge experiments. Tap any project for the full story." />
       <div className="grid2">
-        {projects.map((p) => (
-          <div className="card hover proj clickable" key={p.name} onClick={() => setActive(p)} role="button" tabIndex={0}
+        {projects.map((p, i) => (
+          <Reveal as="div" className="card hover proj clickable" key={p.name} delay={i * 70} onClick={() => setActive(p)} role="button" tabIndex={0}
                onKeyDown={(e) => { if (e.key === "Enter") setActive(p); }}>
             <div className="proj-top">
               <div>
@@ -142,7 +169,7 @@ function Projects({ go }) {
               {p.tags.map((t) => <span className="tag" key={t}>{t}</span>)}
             </div>
             <span className="proj-more">View details <Icon name="arrow" style={{ width: 12, height: 12, stroke: "currentColor", fill: "none", strokeWidth: 1.8 }} /></span>
-          </div>
+          </Reveal>
         ))}
       </div>
       <ProjectModal project={active} onClose={() => setActive(null)} />
@@ -194,15 +221,15 @@ function Experience({ go }) {
     <div className="page">
       <PageHead eyebrow="03 — Experience" title="Where I've made an impact" sub="Roles across education, technology and community development — with the numbers behind them." />
       <div className="timeline">
-        {experience.map((e) => (
-          <div className="tl-item" key={e.role + e.org}>
+        {experience.map((e, i) => (
+          <Reveal as="div" className="tl-item" key={e.role + e.org} delay={i * 80}>
             <div className="tl-when">{e.when}</div>
             <div className="tl-body">
               <h3>{e.role}</h3>
               <div className="tl-org">{e.org} · {e.place}</div>
               <ul>{e.points.map((p, i) => <li key={i}>{p}</li>)}</ul>
             </div>
-          </div>
+          </Reveal>
         ))}
       </div>
       <AskMore go={go} topic="my experience" />
@@ -216,15 +243,15 @@ function Skills({ go }) {
   return (
     <div className="page">
       <PageHead eyebrow="04 — Skills" title="The tools I work with" sub="A working toolkit across engineering, data, architecture and leadership." />
-      {skills.map((g) => (
-        <div className="skill-group" key={g.group}>
+      {skills.map((g, i) => (
+        <Reveal as="div" className="skill-group" key={g.group} delay={i * 80}>
           <h3>{g.group}</h3>
           <div className="chips">
             {g.items.map((s) => (
               <span className="chip" key={s.n}>{s.n}{s.l && <span className="lvl">{s.l}</span>}</span>
             ))}
           </div>
-        </div>
+        </Reveal>
       ))}
       <AskMore go={go} topic="my technical depth" />
     </div>
@@ -233,13 +260,13 @@ function Skills({ go }) {
 
 /* ---------------- Community ---------------- */
 function Community({ go }) {
-  const { community, profile } = DATA;
+  const { community } = DATA;
   return (
     <div className="page wide">
       <PageHead eyebrow="05 — Community" title="Teaching, organizing, giving back" sub="Beyond the code — building people and communities around technology." />
       <div className="grid2">
-        {community.map((c) => (
-          <div className="card hover proj" key={c.name}>
+        {community.map((c, i) => (
+          <Reveal as="div" className="card hover proj" key={c.name} delay={i * 70}>
             <div>
               <div className="kicker">{c.role}</div>
               <h3 style={{ marginTop: 4 }}>{c.name}</h3>
@@ -248,28 +275,8 @@ function Community({ go }) {
             <div className="proj-foot">
               {c.tags.map((t) => <span className="tag" key={t}>{t}</span>)}
             </div>
-          </div>
+          </Reveal>
         ))}
-      </div>
-
-      <h3 style={{ fontFamily: "var(--font-mono)", fontSize: 13, textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--ink-3)", margin: "40px 0 16px", fontWeight: 500 }}>Get in touch</h3>
-      <div className="contact-grid">
-        <a className="contact-row" href={"mailto:" + profile.email}>
-          <span className="ci"><Icon name="mail" /></span>
-          <span><div className="cl">Email</div><div className="cv">{profile.email}</div></span>
-        </a>
-        <a className="contact-row" href={"tel:" + profile.phone.replace(/\s/g, "")}>
-          <span className="ci"><Icon name="phone" /></span>
-          <span><div className="cl">Phone</div><div className="cv">{profile.phone}</div></span>
-        </a>
-        <div className="contact-row" style={{ cursor: "default" }}>
-          <span className="ci"><Icon name="pin" /></span>
-          <span><div className="cl">Based in</div><div className="cv">{profile.location}</div></span>
-        </div>
-        <a className="contact-row" href={profile.calendly} target="_blank" rel="noreferrer">
-          <span className="ci"><Icon name="calendar" /></span>
-          <span><div className="cl">Let's talk</div><div className="cv">Book 30 minutes</div></span>
-        </a>
       </div>
     </div>
   );
@@ -282,11 +289,11 @@ function Gallery() {
     <div className="page wide">
       <PageHead eyebrow="Gallery" title="Out in the world" sub="Talks, summits and community moments. Drag an image onto any tile to fill it." />
       <div className="gallery-grid">
-        {gallery.map((g) => (
-          <div className="gallery-cell" key={g.id}>
+        {gallery.map((g, i) => (
+          <Reveal as="div" className="gallery-cell" key={g.id} delay={i * 60}>
             <image-slot id={g.id} shape="rounded" radius="14" placeholder={g.cap}></image-slot>
             <div className="cap">{g.cap}</div>
-          </div>
+          </Reveal>
         ))}
       </div>
     </div>
@@ -296,12 +303,14 @@ function Gallery() {
 /* ---------------- Blog ---------------- */
 function Blog() {
   const { blog } = DATA;
+  const [active, setActive] = React.useState(null);
   return (
     <div className="page">
       <PageHead eyebrow="Blog" title="Notes & writing" sub="Thoughts on building, learning and teaching technology." />
       <div className="blog-list">
-        {blog.map((b) => (
-          <article className="blog-item" key={b.title}>
+        {blog.map((b, i) => (
+          <Reveal as="article" className="blog-item clickable" key={b.title} delay={i * 80} onClick={() => setActive(b)} role="button" tabIndex={0}
+                    onKeyDown={(e) => { if (e.key === "Enter") setActive(b); }}>
             <div>
               <div className="blog-meta">
                 <span className="tag accent">{b.tag}</span>
@@ -309,10 +318,102 @@ function Blog() {
               </div>
               <h3>{b.title}</h3>
               <p>{b.excerpt}</p>
+              <span className="blog-more">Read more <Icon name="arrow" style={{ width: 12, height: 12, stroke: "currentColor", fill: "none", strokeWidth: 1.8 }} /></span>
             </div>
             <div className="blog-read">{b.read}</div>
-          </article>
+          </Reveal>
         ))}
+      </div>
+      {active && <BlogPostModal key={active.title} post={active} onClose={() => setActive(null)} />}
+    </div>
+  );
+}
+
+function loadBlogState(title) {
+  try {
+    const stored = JSON.parse(localStorage.getItem("nf_blog_" + title) || "{}");
+    return { liked: !!stored.liked, likes: stored.likes || 0, comments: stored.comments || [] };
+  } catch {
+    return { liked: false, likes: 0, comments: [] };
+  }
+}
+
+function BlogPostModal({ post, onClose }) {
+  const initial = React.useMemo(() => loadBlogState(post.title), [post.title]);
+  const [liked, setLiked] = React.useState(initial.liked);
+  const [likes, setLikes] = React.useState(initial.likes);
+  const [comments, setComments] = React.useState(initial.comments);
+  const [draft, setDraft] = React.useState("");
+  const [copied, setCopied] = React.useState(false);
+
+  React.useEffect(() => {
+    const onKey = (e) => { if (e.key === "Escape") onClose(); };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [onClose]);
+
+  const persist = (next) => {
+    try { localStorage.setItem("nf_blog_" + post.title, JSON.stringify(next)); } catch { /* ignored */ }
+  };
+
+  const toggleLike = () => {
+    const nextLiked = !liked;
+    const nextLikes = Math.max(0, likes + (nextLiked ? 1 : -1));
+    setLiked(nextLiked); setLikes(nextLikes);
+    persist({ liked: nextLiked, likes: nextLikes, comments });
+  };
+
+  const addComment = (e) => {
+    e.preventDefault();
+    if (!draft.trim()) return;
+    const next = [...comments, { text: draft.trim(), at: new Date().toISOString() }];
+    setComments(next);
+    setDraft("");
+    persist({ liked, likes, comments: next });
+  };
+
+  const share = async () => {
+    const url = location.origin + location.pathname + "#blog";
+    try {
+      if (navigator.share) await navigator.share({ title: post.title, text: post.excerpt, url });
+      else { await navigator.clipboard.writeText(url); setCopied(true); setTimeout(() => setCopied(false), 1600); }
+    } catch { /* user cancelled or clipboard unavailable */ }
+  };
+
+  return (
+    <div className="modal-scrim" onMouseDown={onClose}>
+      <div className="modal post" onMouseDown={(e) => e.stopPropagation()} role="dialog" aria-modal="true">
+        <button className="modal-x" onClick={onClose} aria-label="Close">
+          <svg viewBox="0 0 24 24" width="18" height="18"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" strokeWidth="1.7" fill="none"/></svg>
+        </button>
+        <div className="blog-meta">
+          <span className="tag accent">{post.tag}</span>
+          <span className="blog-date">{post.date}</span>
+          <span className="blog-read">{post.read}</span>
+        </div>
+        <h2 className="pm-title">{post.title}</h2>
+        <p className="pm-long">{post.excerpt}</p>
+
+        <div className="blog-actions">
+          <button className={"btn" + (liked ? " primary" : "")} onClick={toggleLike}>
+            <span className="ico"><Icon name="spark" /></span> {liked ? "Liked" : "Like"}{likes > 0 ? ` · ${likes}` : ""}
+          </button>
+          <button className="btn" onClick={share}>
+            <span className="ico"><Icon name="send" /></span> {copied ? "Link copied" : "Share"}
+          </button>
+        </div>
+
+        <div className="blog-comments">
+          <div className="pm-sub">Comments {comments.length > 0 ? `(${comments.length})` : ""}</div>
+          {comments.length === 0 && <p className="blog-no-comments">Be the first to comment.</p>}
+          <ul className="blog-comment-list">
+            {comments.map((c, i) => <li key={i}>{c.text}</li>)}
+          </ul>
+          <form className="blog-comment-form" onSubmit={addComment}>
+            <input value={draft} onChange={(e) => setDraft(e.target.value)} placeholder="Add a comment…" />
+            <button type="submit" className="btn primary" disabled={!draft.trim()}>Post</button>
+          </form>
+        </div>
       </div>
     </div>
   );
