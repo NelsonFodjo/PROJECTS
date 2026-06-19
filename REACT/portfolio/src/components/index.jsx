@@ -57,7 +57,7 @@ const SocialIcon = ({ name }) => (
 );
 
 /* ---------------- Sidebar ---------------- */
-function Sidebar({ route, go, collapsed, setCollapsed, width, startResize, mobileOpen, onMessage, onResume, onAiSettings, theme }) {
+function Sidebar({ route, go, collapsed, setCollapsed, width, startResize, mobileOpen, onMessage, onResume, theme }) {
   const { profile } = DATA;
   const avatar = theme === "dark" ? avatarDark : avatarLight;
 
@@ -116,10 +116,6 @@ function Sidebar({ route, go, collapsed, setCollapsed, width, startResize, mobil
           <button className="btn primary block" onClick={onMessage} title="Send me a message">
             <span className="ico"><Icon name="mail" /></span>
             <span className="lbl">Send me a message</span>
-          </button>
-          <button className="btn block" onClick={onAiSettings} title="AI assistant settings">
-            <span className="ico"><Icon name="settings" /></span>
-            <span className="lbl">AI Settings</span>
           </button>
         </div>
       </div>

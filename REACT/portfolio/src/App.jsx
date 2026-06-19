@@ -1,7 +1,7 @@
 /* Root app: routing, resizable sidebar, theme */
 
 import React from 'react';
-import { Sidebar, Icon, ThemeToggle, FullscreenToggle, MessageModal, ResumeGateModal, NeuralBg, AiSettingsModal } from './components/index';
+import { Sidebar, Icon, ThemeToggle, FullscreenToggle, MessageModal, ResumeGateModal, NeuralBg } from './components/index';
 import { Chat } from './components/Chat';
 import { TopBar, Hero, Education, Projects, Gallery, Experience, Skills, Community, Blog, Contact, Game } from './pages/index';
 
@@ -24,7 +24,6 @@ function App() {
   const [seed, setSeed] = React.useState(null);
   const [msgOpen, setMsgOpen] = React.useState(false);
   const [resumeOpen, setResumeOpen] = React.useState(false);
-  const [aiSettingsOpen, setAiSettingsOpen] = React.useState(false);
   const mainRef = React.useRef(null);
 
   /* routing */
@@ -110,7 +109,6 @@ function App() {
       )}
       <MessageModal open={msgOpen} onClose={() => setMsgOpen(false)} />
       <ResumeGateModal open={resumeOpen} onClose={() => setResumeOpen(false)} />
-      <AiSettingsModal open={aiSettingsOpen} onClose={() => setAiSettingsOpen(false)} />
       <Sidebar
         route={route} go={go}
         collapsed={collapsed} setCollapsed={setCollapsed}
@@ -118,7 +116,6 @@ function App() {
         mobileOpen={mobileOpen}
         onMessage={() => setMsgOpen(true)}
         onResume={() => setResumeOpen(true)}
-        onAiSettings={() => setAiSettingsOpen(true)}
         theme={theme}
       />
       <div className={"scrim" + (mobileOpen ? " show" : "")} onClick={() => setMobileOpen(false)}></div>

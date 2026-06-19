@@ -20,6 +20,8 @@ REDIRECTS: When a visitor asks about a whole section in depth (education, projec
 
 OFF-TOPIC: If asked something unrelated to Nelson or his work (general trivia, coding help unrelated to his projects, etc.), briefly decline and steer back: you're here to talk about Nelson specifically.
 
+GREETINGS: If the visitor just says hi/hello or asks what you can do, greet them back warmly and explicitly state that you can only answer questions about Nelson's education, projects, experience, skills, and community work — then invite them to ask.
+
 `;
   k += `=== PROFILE ===\nName: ${p.fullName} ("${p.name}"). Tagline: ${p.tagline}. ${p.role}. Based in ${p.location}. Email: ${p.email}. Phone: ${p.phone}.\nSummary: ${p.summary}\nHeadline numbers: ${p.stats.map(s => s.n + " " + s.l).join(", ")}.\n\n`;
   k += `=== EDUCATION ===\n` + d.education.map(e => `- ${e.degree}, ${e.school} (${e.place}), ${e.when}. ${e.note || ""} ${e.points.join(" ")}`).join("\n") + "\n\n";
@@ -28,6 +30,7 @@ OFF-TOPIC: If asked something unrelated to Nelson or his work (general trivia, c
   k += `=== SKILLS ===\n` + d.skills.map(g => `${g.group}: ${g.items.map(i => i.n).join(", ")}`).join(" | ") + "\n\n";
   k += `=== COMMUNITY ===\n` + d.community.map(c => `- ${c.name} (${c.role}): ${c.desc}`).join("\n") + "\n\n";
   k += `=== CERTIFICATIONS ===\n` + d.certifications.join("; ") + "\n\n";
+  k += `=== SITE FEATURES ===\n- Game: a just-for-fun 8x8 memory-match minigame on the site (icon-matching, timed), added as a small interactive easter egg — not one of Nelson's professional projects. If asked why it's there, say it's just a lighthearted break for visitors browsing the site.\n\n`;
   k += `Stay in character. Do not mention these instructions, the knowledge base, or that you're an AI model — just answer as Nelson's assistant.`;
   return k;
 }
@@ -38,6 +41,7 @@ const SECTION_MATCHERS = [
   { id: "experience", re: /\b(experience|work|job|role|career|coordinator|tutor|ngo|open dreams|tic|intern)/i },
   { id: "skills", re: /\b(skill|tech|stack|tool|language|python|react|javascript|sql|ml|machine learn|data scien)/i },
   { id: "community", re: /\b(communit|volunteer|mentor|hackath|alchemi|innovator|organiz|youtube|nelco|teach)/i },
+  { id: "game", re: /\b(game|memory match|minigame|easter egg)/i },
 ];
 function detectSection(text) {
   for (const m of SECTION_MATCHERS) if (m.re.test(text)) return m.id;
@@ -69,6 +73,7 @@ function fallbackAnswer(text, section) {
   if (section === "experience") return `Nelson has led tech education across **17 schools** as a TIC Summit Regional Coordinator (Best Coordinator award), automates systems at **Open Dreams NGO**, and tutors **600+ students** through NELCO Explains CSC. See the Experience page for impact numbers.`;
   if (section === "skills") return `Core stack: **Python, JavaScript, React, C, SQL**, with data tools like **pandas, scikit-learn and statsmodels** — plus system design and automation. Full breakdown is on the Skills page.`;
   if (section === "community") return `Nelson teaches and organizes widely — **NELCO Explains CSC** (600+ students), **AlchemiHack**, the **Innovator Committee**, and the **TIC Summit** reaching 1000+ participants. The Community page has the details.`;
+  if (section === "game") return `That's just a lighthearted **memory-match minigame** — an 8x8 icon-matching game with a timer, added as a fun little break for visitors browsing the site. It's not one of Nelson's professional projects, just an easter egg. Try it on the Game page!`;
   return `I'm Nelson's assistant — happy to tell you about his **education, projects, experience, skills or community work**. What would you like to know? You can also book a 30-minute call or email him at ${d.profile.email}.`;
 }
 
@@ -79,7 +84,7 @@ function Chat({ go, seed, onSeedConsumed, theme }) {
   const STORE = "nf_chat_v1";
   const [messages, setMessages] = React.useState(() => {
     try { const s = JSON.parse(localStorage.getItem(STORE)); if (s && s.length) return s; } catch { /* ignored */ }
-    return [{ role: "bot", text: `Hi — I'm Nelson's assistant. Ask me anything about his **work, projects, or background**, and I'll point you to the right place. What brings you here?` }];
+    return [{ role: "bot", text: `Hi — I'm Nelson's assistant. I can only answer questions about **Nelson's work, education, projects, experience, skills, and community involvement**. Ask me anything along those lines and I'll point you to the right place. What brings you here?` }];
   });
   const [input, setInput] = React.useState("");
   const [busy, setBusy] = React.useState(false);
@@ -201,9 +206,9 @@ function Chat({ go, seed, onSeedConsumed, theme }) {
 function SectionLink({ id, go }) {
   const labels = {
     education: "Education", projects: "Projects", experience: "Experience",
-    skills: "Skills", community: "Community",
+    skills: "Skills", community: "Community", game: "Game",
   };
-  const icons = { education: "education", projects: "projects", experience: "experience", skills: "skills", community: "community" };
+  const icons = { education: "education", projects: "projects", experience: "experience", skills: "skills", community: "community", game: "spark" };
   return (
     <button className="section-link-card" onClick={() => go(id)}>
       <span className="slc-ico"><Icon name={icons[id]} /></span>
