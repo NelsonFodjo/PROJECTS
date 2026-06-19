@@ -83,8 +83,8 @@ function App() {
   const titleMap = { home: "Home", chat: "Chat", education: "Education", projects: "Projects", gallery: "Gallery", experience: "Experience", skills: "Skills", community: "Community", blog: "Blog" };
 
   let page;
-  if (route === "home") page = <Hero go={go} />;
-  else if (route === "chat") page = <Chat go={go} seed={seed} onSeedConsumed={() => setSeed(null)} />;
+  if (route === "home") page = <Hero go={go} theme={theme} />;
+  else if (route === "chat") page = <Chat go={go} seed={seed} onSeedConsumed={() => setSeed(null)} theme={theme} />;
   else if (route === "education") page = <Education go={go} />;
   else if (route === "projects") page = <Projects go={go} />;
   else if (route === "gallery") page = <Gallery />;
@@ -105,6 +105,7 @@ function App() {
         width={width} startResize={startResize}
         mobileOpen={mobileOpen}
         onMessage={() => setMsgOpen(true)}
+        theme={theme}
       />
       <div className={"scrim" + (mobileOpen ? " show" : "")} onClick={() => setMobileOpen(false)}></div>
 

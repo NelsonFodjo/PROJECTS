@@ -1,7 +1,10 @@
 /* Shared UI: icons, sidebar, helpers */
 
 import React from 'react';
-import { DATA } from '../data';
+import { DATA, NAV } from '../data';
+import avatarLight from '../assets/nelson.jpeg';
+import avatarDark from '../assets/dark_nelson.png';
+import resumePdf from '../assets/Nelson-Fodjo-Resume.pdf';
 
 const Icon = ({ name, ...p }) => {
   const paths = {
@@ -52,8 +55,9 @@ const SocialIcon = ({ name }) => (
 );
 
 /* ---------------- Sidebar ---------------- */
-function Sidebar({ route, go, collapsed, setCollapsed, width, startResize, mobileOpen, onMessage }) {
+function Sidebar({ route, go, collapsed, setCollapsed, width, startResize, mobileOpen, onMessage, theme }) {
   const { profile } = DATA;
+  const avatar = theme === "dark" ? avatarDark : avatarLight;
 
   const cls = ["sidebar", collapsed && "collapsed", mobileOpen === false && "mobile-hidden"].filter(Boolean).join(" ");
   const w = collapsed ? 76 : width;
@@ -64,7 +68,7 @@ function Sidebar({ route, go, collapsed, setCollapsed, width, startResize, mobil
       <div className="sb-inner">
         <div className="sb-head">
           <button className="sb-home" onClick={() => go("home")} title="Home">
-            <img className="avatar" src="src/assets/nelson.jpeg" alt={profile.name} />
+            <img className="avatar" src={avatar} alt={profile.name} />
             <div className="sb-id">
               <div className="sb-name">{profile.name}</div>
               <div className="sb-tag">{profile.tagline}</div>
@@ -82,7 +86,7 @@ function Sidebar({ route, go, collapsed, setCollapsed, width, startResize, mobil
 
         <nav className="sb-nav">
           <div className="sb-section-label">Portfolio</div>
-          {window.NAV.map((n) => (
+          {NAV.map((n) => (
             <button
               key={n.id}
               className={"navitem" + (route === n.id ? " active" : "")}
@@ -103,7 +107,7 @@ function Sidebar({ route, go, collapsed, setCollapsed, width, startResize, mobil
               </a>
             ))}
           </div>
-          <a className="btn block" href="assets/Nelson-Fodjo-Resume.pdf" download>
+          <a className="btn block" href={resumePdf} download>
             <span className="ico"><Icon name="download" /></span>
             <span className="lbl">Download Resume</span>
           </a>
@@ -141,18 +145,12 @@ function MessageModal({ open, onClose }) {
 
   React.useEffect(() => {
     if (!open) return;
-    
+
     setTimeout(() => firstRef.current && firstRef.current.focus(), 60);
     const onKey = (e) => { if (e.key === "Escape") onClose(); };
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
   }, [open, onClose]);
-
-  React.useEffect(() => {
-    if (open) {
-      setSent(false);
-    }
-  }, [open]);
 
   if (!open) return null;
 
@@ -164,7 +162,7 @@ function MessageModal({ open, onClose }) {
       "&body=" + encodeURIComponent(body);
     window.location.href = url;
     setSent(true);
-    setTimeout(() => { onClose(); setSubject(""); setBody(""); }, 1400);
+    setTimeout(() => { onClose(); setSubject(""); setBody(""); setSent(false); }, 1400);
   };
 
   return (
@@ -205,7 +203,5 @@ function MessageModal({ open, onClose }) {
     </div>
   );
 }
-
-Object.assign(window, { Icon, SocialIcon, Sidebar, ThemeToggle, MessageModal });
 
 export { Icon, SocialIcon, Sidebar, ThemeToggle, MessageModal };

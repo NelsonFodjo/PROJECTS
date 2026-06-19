@@ -301,7 +301,7 @@ export const DATA = {
 };
 
 /* ---- nav config ---- */
-window.NAV = [
+export const NAV = [
   { id: "home", label: "Home", icon: "home" },
   { id: "chat", label: "Chat", icon: "chat" },
   { id: "education", label: "Education", icon: "education" },

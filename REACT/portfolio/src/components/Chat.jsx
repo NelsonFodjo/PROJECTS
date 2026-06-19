@@ -2,7 +2,8 @@
 
 import React from 'react';
 import { Icon } from './index';
-import { DATA } from '../data';
+import { DATA, SECTION_BLURB } from '../data';
+import avatar from '../assets/nelson.jpeg';
 
 function buildKnowledge() {
   const d = DATA;
@@ -130,7 +131,7 @@ function Chat({ go, seed, onSeedConsumed }) {
           {messages.map((m, i) => (
             <div className={"msg " + (m.role === "user" ? "user" : "bot")} key={i}>
               <div className="who">
-                {m.role === "user" ? "You" : <img src="assets/nelson.jpeg" alt="Nelson" />}
+                {m.role === "user" ? "You" : <img src={avatar} alt="Nelson" />}
               </div>
               <div className="bubble">
                 <div className="name">{m.role === "user" ? "You" : "Nelson's Assistant"}</div>
@@ -141,7 +142,7 @@ function Chat({ go, seed, onSeedConsumed }) {
           ))}
           {busy && (
             <div className="msg bot">
-              <div className="who"><img src="assets/nelson.jpeg" alt="Nelson" /></div>
+              <div className="who"><img src={avatar} alt="Nelson" /></div>
               <div className="bubble">
                 <div className="name">Nelson's Assistant</div>
                 <div className="typing"><span></span><span></span><span></span></div>
@@ -191,13 +192,11 @@ function SectionLink({ id, go }) {
       <span className="slc-ico"><Icon name={icons[id]} /></span>
       <span>
         <div className="slc-t">Open {labels[id]}</div>
-        <div className="slc-s">{window.SECTION_BLURB[id]}</div>
+        <div className="slc-s">{SECTION_BLURB[id]}</div>
       </span>
       <span className="slc-ar"><Icon name="arrow" style={{ width: 18, height: 18, stroke: "currentColor", fill: "none", strokeWidth: 1.7 }} /></span>
     </button>
   );
 }
-
-Object.assign(window, { Chat });
 
 export { Chat };

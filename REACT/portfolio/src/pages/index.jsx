@@ -1,8 +1,10 @@
 /* Hero + content pages */
 
 import React from 'react';
-import { Icon } from '../components/index';
-import { DATA } from '../data';
+import { Icon, SocialIcon } from '../components/index';
+import { DATA, NAV } from '../data';
+import avatarLight from '../assets/nelson.jpeg';
+import avatarDark from '../assets/dark_nelson.png';
 
 function TopBar({ title, onMenu, scrolled }) {
   return (
@@ -14,10 +16,11 @@ function TopBar({ title, onMenu, scrolled }) {
 }
 
 /* ---------------- Hero ---------------- */
-function Hero({ go }) {
+function Hero({ go, theme }) {
   const { profile } = DATA;
   const [q, setQ] = React.useState("");
-  const links = window.NAV.filter((n) => n.id !== "home" && n.id !== "chat");
+  const links = NAV.filter((n) => n.id !== "home" && n.id !== "chat");
+  const avatar = theme === "dark" ? avatarDark : avatarLight;
 
   const ask = (text) => {
     const value = (text ?? q).trim();
@@ -62,7 +65,7 @@ function Hero({ go }) {
       </div>
 
       <div className="hero-photo">
-        <img src="src/assets/nelson.jpeg" alt={profile.fullName} />
+        <img src={avatar} alt={profile.fullName} key={theme} />
         <div className="badge"><span className="pulse"></span> Open to opportunities</div>
       </div>
     </div>
@@ -368,7 +371,5 @@ function Contact({ go, onMessage }) {
     </div>
   );
 }
-
-Object.assign(window, { TopBar, Hero, Education, Projects, Experience, Skills, Community, Gallery, Blog, Contact });
 
 export { TopBar, Hero, Education, Projects, Experience, Skills, Community, Gallery, Blog, Contact };
