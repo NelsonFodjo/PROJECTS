@@ -312,6 +312,7 @@ export const NAV = [
   { id: "community", label: "Community", icon: "community" },
   { id: "blog", label: "Blog", icon: "blog" },
   { id: "contact", label: "Contact", icon: "mail" },
+  { id: "game", label: "Game", icon: "spark" },
 ];
 
 export const SECTION_BLURB = {
@@ -323,4 +324,5 @@ export const SECTION_BLURB = {
   community: "Where I teach, organize and give back.",
   blog: "Notes on building, learning and teaching.",
   contact: "Get in touch — email, socials or a quick message.",
+  game: "A quick memory match to take a break.",
 };

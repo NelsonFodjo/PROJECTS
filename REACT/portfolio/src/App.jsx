@@ -3,9 +3,9 @@
 import React from 'react';
 import { Sidebar, Icon, ThemeToggle, MessageModal, ResumeGateModal, NeuralBg } from './components/index';
 import { Chat } from './components/Chat';
-import { TopBar, Hero, Education, Projects, Gallery, Experience, Skills, Community, Blog, Contact } from './pages/index';
+import { TopBar, Hero, Education, Projects, Gallery, Experience, Skills, Community, Blog, Contact, Game } from './pages/index';
 
-const ROUTES = ["home", "chat", "education", "projects", "gallery", "experience", "skills", "community", "blog", "contact"];
+const ROUTES = ["home", "chat", "education", "projects", "gallery", "experience", "skills", "community", "blog", "contact", "game"];
 
 function App() {
   const getRoute = () => {
@@ -81,7 +81,7 @@ function App() {
     document.addEventListener("touchend", up);
   };
 
-  const titleMap = { home: "Home", chat: "Chat", education: "Education", projects: "Projects", gallery: "Gallery", experience: "Experience", skills: "Skills", community: "Community", blog: "Blog", contact: "Contact" };
+  const titleMap = { home: "Home", chat: "Chat", education: "Education", projects: "Projects", gallery: "Gallery", experience: "Experience", skills: "Skills", community: "Community", blog: "Blog", contact: "Contact", game: "Game" };
 
   let page;
   if (route === "home") page = <Hero go={go} theme={theme} />;
@@ -94,12 +94,13 @@ function App() {
   else if (route === "community") page = <Community go={go} />;
   else if (route === "blog") page = <Blog />;
   else if (route === "contact") page = <Contact go={go} onMessage={() => setMsgOpen(true)} />;
+  else if (route === "game") page = <Game />;
 
   const isChat = route === "chat";
 
   return (
     <div className="app">
-      <NeuralBg theme={theme} />
+      {route === "home" && <NeuralBg theme={theme} />}
       {!mobileOpen && <ThemeToggle theme={theme} setTheme={setTheme} />}
       <MessageModal open={msgOpen} onClose={() => setMsgOpen(false)} />
       <ResumeGateModal open={resumeOpen} onClose={() => setResumeOpen(false)} />

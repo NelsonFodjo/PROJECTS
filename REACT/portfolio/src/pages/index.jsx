@@ -419,6 +419,134 @@ function BlogPostModal({ post, onClose }) {
   );
 }
 
+/* ---------------- Memory game ---------------- */
+const GAME_ICONS = [
+  "home", "chat", "education", "projects", "experience", "skills", "community", "gallery",
+  "blog", "calendar", "settings", "send", "menu", "sun", "moon", "mail",
+  "phone", "pin", "play", "spark", "panel", "panelLeft",
+];
+const GAME_SIZE = 8;
+const GAME_PAIRS = (GAME_SIZE * GAME_SIZE) / 2;
+
+function shuffledDeck() {
+  const faces = [];
+  for (let i = 0; i < GAME_PAIRS; i++) {
+    const icon = GAME_ICONS[i % GAME_ICONS.length];
+    const variant = i >= GAME_ICONS.length ? "accent" : "plain";
+    faces.push({ icon, variant }, { icon, variant });
+  }
+  for (let i = faces.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [faces[i], faces[j]] = [faces[j], faces[i]];
+  }
+  return faces.map((f, i) => ({ ...f, id: i }));
+}
+
+function formatTime(ms) {
+  const s = Math.floor(ms / 1000);
+  const m = Math.floor(s / 60);
+  const rem = s % 60;
+  const cs = Math.floor((ms % 1000) / 10);
+  return `${String(m).padStart(2, "0")}:${String(rem).padStart(2, "0")}.${String(cs).padStart(2, "0")}`;
+}
+
+function MemoryGame() {
+  const [deck, setDeck] = React.useState(() => shuffledDeck());
+  const [flipped, setFlipped] = React.useState([]);
+  const [matched, setMatched] = React.useState([]);
+  const [moves, setMoves] = React.useState(0);
+  const [startedAt, setStartedAt] = React.useState(null);
+  const [finishedAt, setFinishedAt] = React.useState(null);
+  const [now, setNow] = React.useState(() => Date.now());
+
+  React.useEffect(() => {
+    if (!startedAt || finishedAt) return;
+    const id = setInterval(() => setNow(Date.now()), 30);
+    return () => clearInterval(id);
+  }, [startedAt, finishedAt]);
+
+  const reset = () => {
+    setDeck(shuffledDeck());
+    setFlipped([]);
+    setMatched([]);
+    setMoves(0);
+    setStartedAt(null);
+    setFinishedAt(null);
+  };
+
+  const elapsed = startedAt ? (finishedAt || now) - startedAt : 0;
+  const done = matched.length === deck.length;
+
+  const flip = (id) => {
+    if (finishedAt || flipped.includes(id) || matched.includes(id) || flipped.length === 2) return;
+    if (!startedAt) setStartedAt(() => Date.now());
+
+    const next = [...flipped, id];
+    setFlipped(next);
+
+    if (next.length === 2) {
+      setMoves((m) => m + 1);
+      const [a, b] = next;
+      const cardA = deck.find((c) => c.id === a);
+      const cardB = deck.find((c) => c.id === b);
+      if (cardA.icon === cardB.icon && cardA.variant === cardB.variant) {
+        const newMatched = [...matched, a, b];
+        setTimeout(() => {
+          setMatched(newMatched);
+          setFlipped([]);
+          if (newMatched.length === deck.length) setFinishedAt(Date.now());
+        }, 350);
+      } else {
+        setTimeout(() => setFlipped([]), 700);
+      }
+    }
+  };
+
+  return (
+    <div className="memory-game">
+      <div className="memory-head">
+        <div>
+          <div className="memory-title">Quick memory match</div>
+          <div className="memory-sub">{GAME_PAIRS} pairs · {GAME_SIZE}×{GAME_SIZE} grid — flip two cards, find the match.</div>
+        </div>
+        <div className="memory-stats">
+          <div className="memory-stat"><span>Time</span><b>{formatTime(elapsed)}</b></div>
+          <div className="memory-stat"><span>Moves</span><b>{moves}</b></div>
+          <button className="btn" onClick={reset}>Restart</button>
+        </div>
+      </div>
+
+      {done && (
+        <div className="memory-done">
+          Solved in <b>{formatTime(elapsed)}</b> with <b>{moves}</b> moves.
+        </div>
+      )}
+
+      <div className="memory-grid">
+        {deck.map((c) => {
+          const isFlipped = flipped.includes(c.id) || matched.includes(c.id);
+          const isMatched = matched.includes(c.id);
+          return (
+            <button
+              key={c.id}
+              className={"memory-card" + (isFlipped ? " flipped" : "") + (isMatched ? " matched" : "")}
+              onClick={() => flip(c.id)}
+              aria-label={isFlipped ? c.icon : "Hidden card"}
+            >
+              <div className="memory-card-inner">
+                <div className="memory-card-back"><Icon name="spark" /></div>
+                <div className={"memory-card-front" + (c.variant === "accent" ? " accent" : "")}>
+                  <Icon name={c.icon} />
+                </div>
+              </div>
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 /* ---------------- Contact ---------------- */
 function Contact({ go, onMessage }) {
   const { profile } = DATA;
@@ -473,4 +601,14 @@ function Contact({ go, onMessage }) {
   );
 }
 
-export { TopBar, Hero, Education, Projects, Experience, Skills, Community, Gallery, Blog, Contact };
+/* ---------------- Game ---------------- */
+function Game() {
+  return (
+    <div className="page">
+      <PageHead eyebrow="Just for fun" title="Quick memory match" sub="Flip two cards, find the matching icon, and see how fast you can clear the board. Nelson's best score is 06:50:23 and 152 Moves." />
+      <MemoryGame />
+    </div>
+  );
+}
+
+export { TopBar, Hero, Education, Projects, Experience, Skills, Community, Gallery, Blog, Contact, Game };

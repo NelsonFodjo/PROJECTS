@@ -309,7 +309,7 @@ function NeuralBg({ theme }) {
     const resize = () => {
       w = canvas.width = window.innerWidth;
       h = canvas.height = window.innerHeight;
-      const count = Math.round((w * h) / 14000);
+      const count = Math.round((w * h) / 7000);
       nodes = Array.from({ length: count }, () => ({
         x: Math.random() * w,
         y: Math.random() * h,
@@ -342,7 +342,7 @@ function NeuralBg({ theme }) {
         }
       }
       for (const n of nodes) {
-        ctx.fillStyle = `rgba(${dotColor}, 0.35)`;
+        ctx.fillStyle = `rgba(${dotColor}, 0.5)`;
         ctx.beginPath();
         ctx.arc(n.x, n.y, 1.6, 0, Math.PI * 2);
         ctx.fill();
