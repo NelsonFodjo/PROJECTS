@@ -1,7 +1,7 @@
 /* Root app: routing, resizable sidebar, theme */
 
 import React from 'react';
-import { Sidebar, Icon, ThemeToggle, MessageModal, ResumeGateModal } from './components/index';
+import { Sidebar, Icon, ThemeToggle, MessageModal, ResumeGateModal, NeuralBg } from './components/index';
 import { Chat } from './components/Chat';
 import { TopBar, Hero, Education, Projects, Gallery, Experience, Skills, Community, Blog, Contact } from './pages/index';
 
@@ -99,6 +99,7 @@ function App() {
 
   return (
     <div className="app">
+      <NeuralBg theme={theme} />
       {!mobileOpen && <ThemeToggle theme={theme} setTheme={setTheme} />}
       <MessageModal open={msgOpen} onClose={() => setMsgOpen(false)} />
       <ResumeGateModal open={resumeOpen} onClose={() => setResumeOpen(false)} />

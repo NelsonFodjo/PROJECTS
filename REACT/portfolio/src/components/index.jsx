@@ -208,6 +208,7 @@ function ResumeGateModal({ open, onClose }) {
   const [name, setName] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [org, setOrg] = React.useState("");
+  const [touched, setTouched] = React.useState(false);
   const firstRef = React.useRef(null);
 
   React.useEffect(() => {
@@ -221,10 +222,14 @@ function ResumeGateModal({ open, onClose }) {
 
   if (!open) return null;
 
-  const valid = name.trim() && /\S+@\S+\.\S+/.test(email);
+  const nameError = !name.trim() ? "Name is required." : "";
+  const emailError = !email.trim() ? "Email is required." : !email.includes("@") ? "Email must contain @." : "";
+  const orgError = !org.trim() ? "Organisation is required." : "";
+  const valid = !nameError && !emailError && !orgError;
 
   const submit = (e) => {
     e.preventDefault();
+    setTouched(true);
     if (!valid) return;
     try {
       const entry = { name: name.trim(), email: email.trim(), org: org.trim(), at: new Date().toISOString() };
@@ -240,7 +245,12 @@ function ResumeGateModal({ open, onClose }) {
     a.click();
     a.remove();
 
-    setName(""); setEmail(""); setOrg("");
+    setName(""); setEmail(""); setOrg(""); setTouched(false);
+    onClose();
+  };
+
+  const cancel = () => {
+    setName(""); setEmail(""); setOrg(""); setTouched(false);
     onClose();
   };
 
@@ -255,22 +265,25 @@ function ResumeGateModal({ open, onClose }) {
           <h2>Who's asking?</h2>
           <p>Quick intro so I know who's looking at my resume — then it's all yours.</p>
         </div>
-        <form className="modal-form" onSubmit={submit}>
+        <form className="modal-form" onSubmit={submit} noValidate>
           <label className="field">
             <span>Name</span>
-            <input ref={firstRef} value={name} onChange={(e) => setName(e.target.value)} placeholder="Your name" />
+            <input ref={firstRef} value={name} onChange={(e) => setName(e.target.value)} placeholder="Your name" aria-invalid={touched && !!nameError} />
+            {touched && nameError && <div className="field-error">{nameError}</div>}
           </label>
           <label className="field">
             <span>Email</span>
-            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@company.com" />
+            <input value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@company.com" aria-invalid={touched && !!emailError} />
+            {touched && emailError && <div className="field-error">{emailError}</div>}
           </label>
           <label className="field">
             <span>Organisation</span>
-            <input value={org} onChange={(e) => setOrg(e.target.value)} placeholder="Company / school (optional)" />
+            <input value={org} onChange={(e) => setOrg(e.target.value)} placeholder="Company / school" aria-invalid={touched && !!orgError} />
+            {touched && orgError && <div className="field-error">{orgError}</div>}
           </label>
           <div className="modal-actions">
-            <button type="button" className="btn" onClick={onClose}>Cancel</button>
-            <button type="submit" className="btn primary" disabled={!valid}>
+            <button type="button" className="btn" onClick={cancel}>Cancel</button>
+            <button type="submit" className="btn primary">
               <span className="ico"><Icon name="download" /></span> Download Resume
             </button>
           </div>
@@ -280,4 +293,87 @@ function ResumeGateModal({ open, onClose }) {
   );
 }
 
-export { Icon, SocialIcon, Sidebar, ThemeToggle, MessageModal, ResumeGateModal };
+function NeuralBg({ theme }) {
+  const canvasRef = React.useRef(null);
+
+  React.useEffect(() => {
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext("2d");
+    let w, h, nodes, raf;
+    let running = true;
+
+    const dotColor = theme === "dark" ? "148, 163, 184" : "100, 116, 139";
+    const lineColor = theme === "dark" ? "96, 165, 250" : "59, 130, 246";
+
+    const resize = () => {
+      w = canvas.width = window.innerWidth;
+      h = canvas.height = window.innerHeight;
+      const count = Math.round((w * h) / 14000);
+      nodes = Array.from({ length: count }, () => ({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        vx: (Math.random() - 0.5) * 0.18,
+        vy: (Math.random() - 0.5) * 0.18,
+      }));
+    };
+
+    const step = () => {
+      if (!running) return;
+      ctx.clearRect(0, 0, w, h);
+      for (const n of nodes) {
+        n.x += n.vx; n.y += n.vy;
+        if (n.x < 0 || n.x > w) n.vx *= -1;
+        if (n.y < 0 || n.y > h) n.vy *= -1;
+      }
+      for (let i = 0; i < nodes.length; i++) {
+        for (let j = i + 1; j < nodes.length; j++) {
+          const a = nodes[i], b = nodes[j];
+          const dx = a.x - b.x, dy = a.y - b.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 160) {
+            ctx.strokeStyle = `rgba(${lineColor}, ${0.3 * (1 - dist / 160)})`;
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(a.x, a.y);
+            ctx.lineTo(b.x, b.y);
+            ctx.stroke();
+          }
+        }
+      }
+      for (const n of nodes) {
+        ctx.fillStyle = `rgba(${dotColor}, 0.35)`;
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, 1.6, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      raf = requestAnimationFrame(step);
+    };
+
+    resize();
+    window.addEventListener("resize", resize);
+
+    if (!reduceMotion) {
+      raf = requestAnimationFrame(step);
+    } else {
+      step();
+    }
+
+    const onVisibility = () => {
+      running = document.visibilityState === "visible" && !reduceMotion;
+      if (running) raf = requestAnimationFrame(step);
+    };
+    document.addEventListener("visibilitychange", onVisibility);
+
+    return () => {
+      running = false;
+      cancelAnimationFrame(raf);
+      window.removeEventListener("resize", resize);
+      document.removeEventListener("visibilitychange", onVisibility);
+    };
+  }, [theme]);
+
+  return <canvas ref={canvasRef} className="neural-bg" aria-hidden="true" />;
+}
+
+export { Icon, SocialIcon, Sidebar, ThemeToggle, MessageModal, ResumeGateModal, NeuralBg };

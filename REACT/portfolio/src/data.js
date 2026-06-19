@@ -21,7 +21,7 @@ export const DATA = {
       { id: "whatsapp", label: "WhatsApp", short: "wa", url: "https://wa.me/237652278011" },
     ],
     summary:
-      "Solution-oriented software engineering and data science student with strong leadership and execution skills. I transform complex problems into scalable solutions across education, technology, and community development. I am known for high ownership, rapid learning, and delivering measurable results.",
+      "Solution-oriented software engineer. I transform complex problems into scalable solutions across education, technology, and community development. I am known for high ownership, rapid learning, and delivering measurable results.",
     stats: [
       { n: "600+", l: "students taught" },
       { n: "17", l: "schools reached" },
