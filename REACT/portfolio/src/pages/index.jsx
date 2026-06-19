@@ -8,7 +8,7 @@ function TopBar({ title, onMenu, scrolled }) {
   return (
     <div className={"topbar" + (scrolled ? " scrolled" : "")}>
       <button className="icon-btn mobile-only" onClick={onMenu} title="Menu"><Icon name="menu" /></button>
-      <div className="crumb">nelson<span style={{ opacity: 0.5 }}>.dev</span> / <b>{title}</b></div>
+      <div className="crumb">Nelson/ <b>{title}</b></div>
     </div>
   );
 }
@@ -39,7 +39,7 @@ function Hero({ go }) {
           <input
             value={q}
             onChange={(e) => setQ(e.target.value)}
-            placeholder="Ask my AI anything about Nelson…"
+            placeholder="Ask me anything about Nelson…"
             aria-label="Ask the AI assistant"
           />
           <button className="send-btn" type="submit" disabled={!q.trim()} title="Start chat">
