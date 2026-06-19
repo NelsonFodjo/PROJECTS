@@ -33,6 +33,8 @@ const Icon = ({ name, ...p }) => {
     panel: <><rect x="3.5" y="4.5" width="17" height="15" rx="2"/><path d="M9 4.5v15"/></>,
     panelLeft: <><rect x="3.5" y="4.5" width="17" height="15" rx="2"/><path d="M9 4.5v15"/><path d="m15.5 9.5-2.5 2.5 2.5 2.5"/></>,
     panelRight: <><rect x="3.5" y="4.5" width="17" height="15" rx="2"/><path d="M9 4.5v15"/><path d="m12.8 9.5 2.5 2.5-2.5 2.5"/></>,
+    expand: <><path d="M9 4.5H4.5V9"/><path d="M15 4.5h4.5V9"/><path d="M9 19.5H4.5V15"/><path d="M15 19.5h4.5V15"/></>,
+    collapse: <><path d="M4.5 9V4.5H9"/><path d="M19.5 9V4.5H15"/><path d="M4.5 15v4.5H9"/><path d="M19.5 15v4.5H15"/></>,
   };
   return (
     <svg viewBox="0 0 24 24" aria-hidden="true" {...p}>
@@ -55,7 +57,7 @@ const SocialIcon = ({ name }) => (
 );
 
 /* ---------------- Sidebar ---------------- */
-function Sidebar({ route, go, collapsed, setCollapsed, width, startResize, mobileOpen, onMessage, onResume, theme }) {
+function Sidebar({ route, go, collapsed, setCollapsed, width, startResize, mobileOpen, onMessage, onResume, onAiSettings, theme }) {
   const { profile } = DATA;
   const avatar = theme === "dark" ? avatarDark : avatarLight;
 
@@ -115,6 +117,10 @@ function Sidebar({ route, go, collapsed, setCollapsed, width, startResize, mobil
             <span className="ico"><Icon name="mail" /></span>
             <span className="lbl">Send me a message</span>
           </button>
+          <button className="btn block" onClick={onAiSettings} title="AI assistant settings">
+            <span className="ico"><Icon name="settings" /></span>
+            <span className="lbl">AI Settings</span>
+          </button>
         </div>
       </div>
 
@@ -132,6 +138,32 @@ function ThemeToggle({ theme, setTheme }) {
       aria-label="Toggle theme"
     >
       <Icon name={theme === "dark" ? "sun" : "moon"} />
+    </button>
+  );
+}
+
+function FullscreenToggle() {
+  const [fullscreen, setFullscreen] = React.useState(() => !!document.fullscreenElement);
+
+  React.useEffect(() => {
+    const onChange = () => setFullscreen(!!document.fullscreenElement);
+    document.addEventListener("fullscreenchange", onChange);
+    return () => document.removeEventListener("fullscreenchange", onChange);
+  }, []);
+
+  const toggle = () => {
+    if (document.fullscreenElement) document.exitFullscreen();
+    else document.documentElement.requestFullscreen().catch(() => {});
+  };
+
+  return (
+    <button
+      className="theme-toggle fullscreen-toggle"
+      onClick={toggle}
+      title={fullscreen ? "Exit fullscreen" : "Enter fullscreen"}
+      aria-label="Toggle fullscreen"
+    >
+      <Icon name={fullscreen ? "collapse" : "expand"} />
     </button>
   );
 }
@@ -376,4 +408,4 @@ function NeuralBg({ theme }) {
   return <canvas ref={canvasRef} className="neural-bg" aria-hidden="true" />;
 }
 
-export { Icon, SocialIcon, Sidebar, ThemeToggle, MessageModal, ResumeGateModal, NeuralBg };
+export { Icon, SocialIcon, Sidebar, ThemeToggle, FullscreenToggle, MessageModal, ResumeGateModal, NeuralBg };

@@ -34,7 +34,7 @@ function Hero({ go, theme }) {
         <div className="hero-divider"></div>
         <div className="eyebrow" style={{ marginTop: 18 }}>{profile.tagline}</div>
         <h1>
-          Hi, I'm Nelson.<br />I Copy, Paste then  <span className="accent">Innovate</span>.
+          Hi, I'm Nelson.<br />I Copy, Paste then  <span className="accent">Innovate</span> .
         </h1>
         <p className="lead">{profile.summary}</p>
 
@@ -605,7 +605,7 @@ function Contact({ go, onMessage }) {
 function Game() {
   return (
     <div className="page">
-      <PageHead eyebrow="Just for fun" title="Quick memory match" sub="Flip two cards, find the matching icon, and see how fast you can clear the board. Nelson's best score is 06:50:23 and 152 Moves." />
+      <PageHead eyebrow="Just for fun" title="Quick memory match" sub="Flip two cards, find the matching icon, and see how fast you can clear the board. Nelson's best score is 06:50.23 and 152 Moves." />
       <MemoryGame />
     </div>
   );
