@@ -287,7 +287,7 @@ function Gallery() {
   const { gallery } = DATA;
   return (
     <div className="page wide">
-      <PageHead eyebrow="Gallery" title="Out in the world" sub="Talks, summits and community moments. Drag an image onto any tile to fill it." />
+      <PageHead eyebrow="Gallery" title="Out in the world" sub="Talks, summits and community moments." />
       <div className="gallery-grid">
         {gallery.map((g, i) => (
           <Reveal as="div" className="gallery-cell" key={g.id} delay={i * 60}>
