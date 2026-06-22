@@ -41,7 +41,7 @@ const SECTION_MATCHERS = [
   { id: "experience", re: /\b(experience|work|job|role|career|coordinator|tutor|ngo|open dreams|tic|intern)/i },
   { id: "skills", re: /\b(skill|tech|stack|tool|language|python|react|javascript|sql|ml|machine learn|data scien)/i },
   { id: "community", re: /\b(communit|volunteer|mentor|hackath|alchemi|innovator|organiz|youtube|nelco|teach)/i },
-  { id: "game", re: /\b(game|memory match|minigame|easter egg)/i },
+  { id: "game", re: /\b(game|memory match|minigame|guess|easter egg)/i },
 ];
 function detectSection(text) {
   for (const m of SECTION_MATCHERS) if (m.re.test(text)) return m.id;
