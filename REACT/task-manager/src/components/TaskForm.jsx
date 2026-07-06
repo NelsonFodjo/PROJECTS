@@ -5,7 +5,13 @@ export default function TaskForm({dispatch}){
     function handleSubmit(e){
         e.preventDefault();
         if (text.trim() === "") return ;
-        dispatch({type : "ADD_TASK", payload : text});
+
+        const newTask = {
+            id: Date.now(),
+            text: text,
+            completed: false
+        };
+        dispatch({type : "ADD_TASK", payload : newTask});
         setText("");
     }
     return(
@@ -15,7 +21,7 @@ export default function TaskForm({dispatch}){
             value={text}
             onChange={(e) => setText(e.target.value)} 
             placeholder="Add a new Task ..."/>
-            <button></button>
+            <button type="submit">Add</button>
         
         </form>
     
