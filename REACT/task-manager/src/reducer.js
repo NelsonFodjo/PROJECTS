@@ -2,7 +2,7 @@ export default function taskReducer(state, action){
     switch(action.type){
         case "ADD_TASK":
             return { ...state,
-                . = [...state, action.payload]
+                tasks : [...state.tasks, action.payload]
             }
         default:
             return state;
