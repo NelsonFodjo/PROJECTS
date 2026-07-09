@@ -7,13 +7,13 @@ const STICKER_IMG = 'https://res.cloudinary.com/dazv72mhz/image/upload/v17817225
 
 const PRODUCTS = [
   {
-    name: 'Zobo Blend',
-    description: 'A bold, naturally sweetened hibiscus refresher.',
+    name: 'Smoothies',
+    description: 'Build your own smoothie: Pick any 3 fruits, we blend, You enjoy.',
     image: SMOOTHIE_IMG,
   },
   {
-    name: 'Tiger Nut Delight',
-    description: 'Creamy, nutty, and packed with natural energy.',
+    name: 'Lemonades: Variants',
+    description: 'classic Lemonade, Berry Lemonade, fruit infused Lemonade.',
     image: LEMONADE1_IMG,
   },
   {
