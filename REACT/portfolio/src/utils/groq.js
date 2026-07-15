@@ -1,8 +1,3 @@
-/* Groq chat completion call, configured via the VITE_GROQ_API_KEY env var.
-   This is baked into the JS bundle at build time, so it's only appropriate
-   for local/personal use — anyone with devtools on a deployed build could
-   extract it. See .env.example. */
-
 const MODEL = "llama-3.3-70b-versatile";
 
 export async function groqComplete(messages, { temperature = 0.4, maxTokens = 400 } = {}) {
