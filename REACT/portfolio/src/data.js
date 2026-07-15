@@ -8,7 +8,7 @@ export const DATA = {
     role: "Data Science & Software Engineering · EdTech Innovator · Tech Community Leader",
     location: "Pamplemousses, Mauritius",
     email: "fodjonelson22@gmail.com",
-    phone: "+237 652 278 011",
+    phone: "+230 58589694",
     github: "https://github.com/",
     linkedin: "https://www.linkedin.com/",
     youtube: "NELCO Explains CSC",
@@ -72,21 +72,7 @@ export const DATA = {
   ],
 
   projects: [
-    {
-      name: "Pansophic",
-      kicker: "EdTech Platform",
-      desc: "An education platform built to make quality computer-science learning accessible to students across Africa — pairing structured curriculum with hands-on practice.",
-      tags: ["Product", "EdTech", "Full-stack"],
-      featured: true,
-      year: "2025",
-      role: "Founder & Lead Engineer",
-      long: "Pansophic is an education platform designed for students with ambition but limited access. It pairs a structured computer-science curriculum with hands-on practice, working reliably even on low-bandwidth connections.",
-      highlights: [
-        "Offline-first architecture so lessons load on patchy connections",
-        "Structured CS curriculum with hands-on coding practice",
-        "Built for scale across multiple schools and cohorts",
-      ],
-    },
+    
     {
       name: "ZK-Credit Scorer",
       kicker: "Privacy · Web3",
