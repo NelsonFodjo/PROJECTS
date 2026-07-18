@@ -143,7 +143,7 @@ function Education({ go }) {
       </div>
       <AskMore go={go} topic="my coursework" />
     </div>
-  );
+  )
 }
 
 /* ---------------- Projects ---------------- */
