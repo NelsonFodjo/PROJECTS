@@ -1,0 +1,10 @@
+{
+	"permissions": {
+		"allow": [
+			"glob",
+			"execute(ls -R:*)",
+			"execute(echo \"import:*)",
+			"execute(python3 hello.py)"
+		]
+	}
+}
