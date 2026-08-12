@@ -4,7 +4,20 @@
 			"glob",
 			"execute(ls -R:*)",
 			"execute(echo \"import:*)",
-			"execute(python3 hello.py)"
+			"execute(python3 hello.py)",
+			"execute(pip install:*)",
+			"execute(python3 -m venv venv)",
+			"execute(source venv/bin/activate:*)",
+			"execute(touch /home/nelco/PROJECTS/AI/my-first-agent/chatbot.py:*)",
+			"execute(echo \"api_key:*)",
+			"execute(echo \"client:*)",
+			"execute(echo \"if:*)",
+			"execute(echo \"else:\\n:*)",
+			"execute(echo \"def:*)",
+			"web_search(backboard-sdk pip:*)",
+			"fetch_url(https://pypi.org/project/backboard-sdk/)",
+			"read",
+			"execute(python3 chatbot.py)"
 		]
 	}
 }

@@ -1,0 +1,5 @@
+{"timestamp":"2026-08-12T22:46:18.722Z","session_id":"sess_2881a51b","sequence":0,"source":"client","type":"session:created","payload":{"type":"session:created","sessionId":"sess_2881a51b","threadId":null}}
+{"timestamp":"2026-08-12T22:46:19.920Z","session_id":"sess_2881a51b","sequence":1,"source":"client","type":"turn:start","payload":{"type":"turn:start","turnId":"turn_8ff12998"}}
+{"timestamp":"2026-08-12T22:46:19.920Z","session_id":"sess_2881a51b","sequence":2,"source":"client","type":"user:message","payload":{"type":"user:message","text":"hi"}}
+{"timestamp":"2026-08-12T22:46:25.047Z","session_id":"sess_2881a51b","sequence":3,"source":"client","type":"run:error","payload":{"type":"run:error","error":"Your free credit is reserved for Memory & RAG, so it can't cover LLM chat. Add credits or start a subscription on the Billing page to continue — and turn on auto-reload so your balance tops up automatically and you're never interrupted mid-conversation."}}
+{"timestamp":"2026-08-12T22:46:25.047Z","session_id":"sess_2881a51b","sequence":4,"source":"client","type":"turn:end","payload":{"type":"turn:end","turnId":"turn_8ff12998","status":"failed","durationMs":5128}}
