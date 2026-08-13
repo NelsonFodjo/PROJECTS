@@ -1,0 +1,6 @@
+.env
+sidekick.json
+.backboard/
+__pycache__/
+venv/
+.venv/
