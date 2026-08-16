@@ -1,0 +1,6 @@
+Phase 1: Define the LLM Feature Under Test
+Phase 2: Build the Golden Dataset
+Phase 3: Build the Evaluation Engine
+Phase 4: Build the Alerting and Reporting Layer
+Phase 5: Wire into CI/CD
+Phase 6: Polish for Portfolio

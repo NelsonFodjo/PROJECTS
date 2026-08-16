@@ -1,7 +1,7 @@
 version: "v1"
 timestamp: "2026-08-16T00:00:00Z"
 description: "Baseline zero-shot classifier"
-model: "llama-3.1-8b-instant"
+model: "groq 2.0"
 temperature: 0.0
 system_prompt: |
   You are a customer support email classifier. Read the email and respond
