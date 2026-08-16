@@ -17,7 +17,11 @@
 			"web_search(backboard-sdk pip:*)",
 			"fetch_url(https://pypi.org/project/backboard-sdk/)",
 			"read",
-			"execute(python3 chatbot.py)"
+			"execute(python3 chatbot.py)",
+			"execute(source /home/nelco/PROJECTS/AI/my-first-agent/venv/bin/activate:*)",
+			"grep",
+			"execute(grep -rn:*)",
+			"edit(=/home/nelco/PROJECTS/AI/my-first-agent/chatbot.py)"
 		]
 	}
 }

@@ -13,26 +13,53 @@ if not api_key:
 assistant_file = 'sidekick.json'
 
 
-async def get_assistant_id(client):
+def load_config():
     if os.path.exists(assistant_file):
         with open(assistant_file, 'r') as file:
-            data = json.load(file)
-            return data.get('assistant_id')
+            return json.load(file)
+    return {}
+
+
+def save_config(data):
+    with open(assistant_file, 'w') as file:
+        json.dump(data, file)
+
+
+async def get_assistant_id(client, config):
+    if config.get('assistant_id'):
+        return config['assistant_id']
 
     assistant = await client.create_assistant(
         name='Sidekick', system_prompt="Hello! I'm Sidekick, your friendly assistant."
     )
     assistant_id = str(assistant.assistant_id)
-    with open(assistant_file, 'w') as file:
-        json.dump({'assistant_id': assistant_id}, file)
+    config['assistant_id'] = assistant_id
+    save_config(config)
     return assistant_id
+
+
+async def get_thread_id(client, config, assistant_id):
+    # Reusing the same thread across runs is what gives the chatbot memory:
+    # Backboard keeps the conversation history tied to a thread_id.
+    if config.get('thread_id'):
+        try:
+            await client.get_thread(thread_id=config['thread_id'])
+            return config['thread_id']
+        except Exception:
+            pass  # stored thread no longer exists, create a new one
+
+    thread = await client.create_thread(assistant_id=assistant_id)
+    thread_id = str(thread.thread_id)
+    config['thread_id'] = thread_id
+    save_config(config)
+    return thread_id
 
 
 async def chat():
     async with BackboardClient(api_key=api_key) as client:
-        assistant_id = await get_assistant_id(client)
-        thread = await client.create_thread(assistant_id=assistant_id)
-        thread_id = thread.thread_id
+        config = load_config()
+        assistant_id = await get_assistant_id(client, config)
+        thread_id = await get_thread_id(client, config, assistant_id)
 
         print('Chatbot started. Type "quit" to exit.')
         while True:

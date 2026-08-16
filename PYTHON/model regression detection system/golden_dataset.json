@@ -1,0 +1,126 @@
+{
+  "dataset_version": "1.0",
+  "created": "2026-08-16",
+  "test_cases": [
+    {
+      "id": "tc_001",
+      "input": "Hi, I noticed I was billed $49.99 twice on my last statement. Can you look into this and refund the extra charge?",
+      "expected_category": "billing",
+      "expected_summary_gist": "duplicate charge, refund request",
+      "difficulty": "easy",
+      "notes": "Clear billing case with explicit refund ask."
+    },
+    {
+      "id": "tc_002",
+      "input": "The export button on the dashboard does nothing when I click it. No error, no download, nothing happens.",
+      "expected_category": "technical",
+      "expected_summary_gist": "export button not working, no error shown",
+      "difficulty": "easy",
+      "notes": "Clear technical bug report."
+    },
+    {
+      "id": "tc_003",
+      "input": "I can't log into my account, it keeps saying my password is incorrect even after I reset it three times.",
+      "expected_category": "account",
+      "expected_summary_gist": "cannot log in despite password resets",
+      "difficulty": "easy",
+      "notes": "Clear account access issue."
+    },
+    {
+      "id": "tc_004",
+      "input": "Just wanted to say your support team was amazing yesterday, really quick and helpful. Thanks!",
+      "expected_category": "general",
+      "expected_summary_gist": "positive feedback about support experience",
+      "difficulty": "easy",
+      "notes": "Clear general/praise case."
+    },
+    {
+      "id": "tc_005",
+      "input": "I upgraded to the Pro plan last week but I'm still being charged the old rate, and also the new features aren't showing up in my dashboard.",
+      "expected_category": "billing",
+      "expected_summary_gist": "wrong billing rate after upgrade, features also missing",
+      "difficulty": "hard",
+      "notes": "Ambiguous: could be billing or technical. Primary intent is the billing discrepancy, features are secondary. Tests primary-intent reasoning."
+    },
+    {
+      "id": "tc_006",
+      "input": "pwd reset not working??",
+      "expected_category": "account",
+      "expected_summary_gist": "password reset not working",
+      "difficulty": "hard",
+      "notes": "Extremely short, informal, abbreviation-heavy input."
+    },
+    {
+      "id": "tc_007",
+      "input": "Bonjour, je n'arrive pas a acceder a mon compte, error 403 forbidden a chaque fois. Please help urgent!",
+      "expected_category": "account",
+      "expected_summary_gist": "cannot access account, getting 403 error",
+      "difficulty": "hard",
+      "notes": "Mixed French/English. Tests robustness to mixed language."
+    },
+    {
+      "id": "tc_008",
+      "input": "Oh great, ANOTHER outage. Third time this month. Really loving the 'reliability' you advertise.",
+      "expected_category": "technical",
+      "expected_summary_gist": "sarcastic complaint about repeated outages",
+      "difficulty": "hard",
+      "notes": "Sarcastic tone. Tests whether model gets distracted by tone instead of intent."
+    },
+    {
+      "id": "tc_009",
+      "input": "How do I delete my account permanently and make sure all my data is gone?",
+      "expected_category": "account",
+      "expected_summary_gist": "wants to permanently delete account and data",
+      "difficulty": "medium",
+      "notes": "Account deletion is explicitly defined as 'account' category, not general."
+    },
+    {
+      "id": "tc_010",
+      "input": "hey",
+      "expected_category": "general",
+      "expected_summary_gist": "no actual content, just a greeting",
+      "difficulty": "hard",
+      "notes": "Near-empty input with no real intent. Tests graceful fallback to general instead of hallucinating an issue."
+    },
+    {
+      "id": "tc_011",
+      "input": "My invoice for March shows a tax rate of 20% but I'm in a region where tax should be 8%. Can someone correct this and reissue the invoice?",
+      "expected_category": "billing",
+      "expected_summary_gist": "incorrect tax rate on invoice, requests correction",
+      "difficulty": "medium",
+      "notes": "Billing case with specific numeric details, tests summary accuracy."
+    },
+    {
+      "id": "tc_012",
+      "input": "The API integration stopped returning webhook events yesterday around 3pm UTC. Our production system depends on this.",
+      "expected_category": "technical",
+      "expected_summary_gist": "webhook events stopped, affects production",
+      "difficulty": "medium",
+      "notes": "Technical case with time-specific and severity details."
+    },
+    {
+      "id": "tc_013",
+      "input": "I think there's a bug where changing my email address also silently changes my billing address to match. Is that intentional?",
+      "expected_category": "technical",
+      "expected_summary_gist": "changing email incorrectly also changes billing address",
+      "difficulty": "hard",
+      "notes": "Mentions billing but the actual complaint is a technical/data bug. Tests primary-intent vs surface keyword matching."
+    },
+    {
+      "id": "tc_014",
+      "input": "Do you offer any student discounts or nonprofit pricing? Our organization is a registered 501(c)(3).",
+      "expected_category": "billing",
+      "expected_summary_gist": "asking about discount/nonprofit pricing options",
+      "difficulty": "medium",
+      "notes": "Pricing inquiry, not a complaint. Tests that billing covers pre-sale pricing questions too."
+    },
+    {
+      "id": "tc_015",
+      "input": "asdkfj alksdjf 12345 !!! test test",
+      "expected_category": "general",
+      "expected_summary_gist": "gibberish/test input with no real content",
+      "difficulty": "hard",
+      "notes": "Garbage/test input. Tests that the model doesn't hallucinate a category or summary from noise."
+    }
+  ]
+}

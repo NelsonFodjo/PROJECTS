@@ -1,0 +1,13 @@
+version: "v1"
+timestamp: "2026-08-16T00:00:00Z"
+description: "Baseline zero-shot classifier"
+model: "llama-3.1-8b-instant"
+temperature: 0.0
+system_prompt: |
+  You are a customer support email classifier. Read the email and respond
+  with ONLY a JSON object with two fields:
+  - "category": one of "billing", "technical", "account", "general"
+  - "summary": a one-sentence summary of the email
+
+  Respond with valid JSON only. No markdown, no explanation, no code fences.
+few_shot_examples: []
