@@ -58,7 +58,7 @@ command = [
     #  0   → Lossless (huge file)
     # 18   → Visually lossless
     # 20   → Excellent quality
-    # 23   → Default (balanced)
+    #alanced)
     # 25   → Smaller file
     # 28   → Strong compression (common for web)
     # 30+  → Very aggressive compression
